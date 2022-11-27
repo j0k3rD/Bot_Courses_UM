@@ -4,7 +4,9 @@ from selenium.webdriver.remote.webdriver import WebDriver
 import os
 from main.services.browser import Browser 
 
+
 class FirefoxBrowser(Browser):
+
     def __get_service(self):
         service = Service()
         return service

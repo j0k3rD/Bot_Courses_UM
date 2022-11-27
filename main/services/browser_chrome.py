@@ -3,6 +3,8 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.chrome.service import Service
 from main.services.browser import Browser
 from webdriver_manager.chrome import ChromeDriverManager
+
+
 class ChromeBrowser(Browser):
 
     def __get_service(self):

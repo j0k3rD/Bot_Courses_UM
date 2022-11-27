@@ -6,7 +6,6 @@ class Create(ABC):
     @abstractmethod  
     def create(self, model: db.Model):
         pass
-        
 
 class Read(ABC):
     @abstractmethod

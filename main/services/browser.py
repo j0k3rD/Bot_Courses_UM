@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from selenium.webdriver.remote.webdriver import WebDriver
 
+
 class Browser(ABC):
 
     @abstractmethod
