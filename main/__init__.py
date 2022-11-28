@@ -42,9 +42,8 @@ def create_app():
     app.register_blueprint(home,url_prefix="/api/v1")
     app.register_blueprint(scrapblue,url_prefix="/api/v1")
 
-    # Usamos multiprocessing para crear un proceso aparte para el bot
-    # from multiprocessing import Process
-        #Inicializamos el bot
+    # Usamos multiprocessing para crear un proceso aparte para el bot de discord
+    #Inicializamos el bot
     bot = commands.Bot(command_prefix=app.config['DISCORD_PREFIX'], intents=app.config['DISCORD_INTENTS'])
 
     @bot.command(name='search')
@@ -54,4 +53,5 @@ def create_app():
         
     p = Process(target=bot.run, args=(app.config['DISCORD_TOKEN'],))
     p.start()
+    
     return app
