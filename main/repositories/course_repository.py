@@ -4,6 +4,7 @@ from .. import db
 
 
 class CourseRepository(Create, Read, Update, Delete):
+    
     def __init__(self,):
         self.type_model = Course
 

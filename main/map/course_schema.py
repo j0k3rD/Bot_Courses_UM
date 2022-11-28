@@ -3,6 +3,7 @@ from main.models import CourseModel
 
 
 class CourseSchema(Schema):
+    
     id = fields.Int(dump_only=True)
     url = fields.Str(required=True, validate=validate.Length(min=1))
     title = fields.Str(required=True, validate=validate.Length(min=1))
