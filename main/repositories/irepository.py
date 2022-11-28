@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from ast import Pass
 from .. import db
+
 
 class Create(ABC):
     @abstractmethod  

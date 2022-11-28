@@ -1,12 +1,12 @@
-#TODO: crear resource con blue_print
 from flask import Blueprint, jsonify
 from main.services import ScrapServices, FirefoxBrowser, ChromeBrowser
 
-scrapblue = Blueprint('scrapblue',__name__)
+
+scrapblue = Blueprint('scrapblue',__name__, url_prefix='/')
 
 @scrapblue.route('/search/<browser>/<keyword>/', methods=['GET'])
 def search(browser:str,keyword:str):
-    if browser.lower() != "chrome" or browser.lower() != "firefox":
+    if browser.lower() != "chrome" and browser.lower() != "firefox":
         resp = jsonify({'status':'Invalid browser option!'})
         resp.status_code = 404
     else:
@@ -19,5 +19,5 @@ def search(browser:str,keyword:str):
         scrap_service.search(keyword, "https://codigofacilito.com/search?utf8=✓&keyword")
         resp = jsonify({'status':'search_complete'})
         resp.status_code = 200
-    
+            
     return resp

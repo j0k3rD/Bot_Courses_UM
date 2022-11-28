@@ -19,6 +19,3 @@ class Browser(ABC):
     @abstractmethod
     def search(self, keyword:str, url:str) -> WebDriver:
         pass
-
-
-        

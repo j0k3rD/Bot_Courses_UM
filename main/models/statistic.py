@@ -1,11 +1,16 @@
 from .. import db
 from sqlalchemy.ext.hybrid import hybrid_property
 
+
 class Statistic(db.Model):
     __tablename__ = 'statistics'
     __id = db.Column('id', db.Integer, primary_key=True, nullable=False)
-    __user_id = db.Column('user_id', db.ForeignKey('user.id'), nullable=False)
-    __course_id = db.Column('course_id', db.ForeignKey('course.id'), nullable=False)
+
+    __user_id = db.relationship('User', backref='statistics')
+    user = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    __course_id = db.relationship('Course', backref='statistics')
+    course = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+
 
     def __repr__(self):
         return f'< User:  {self.__id} {self.__user_id} {self.__course_id}>'

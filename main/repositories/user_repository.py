@@ -1,6 +1,7 @@
 from main.repositories.irepository import Create, Delete, Read, Update 
 from .. import db
 
+
 class UserRepository(Create, Read, Update, Delete):
 
     def create(self, model: db.Model):
@@ -20,7 +21,6 @@ class UserRepository(Create, Read, Update, Delete):
     def delete_by_id(self, id: int):
         db.session.query(self.type_model).filter_by(id=id).delete() 
         db.session.commit() 
-
 
     def find_all(self):
         return db.session.query(db.Model).all()

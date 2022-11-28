@@ -58,3 +58,26 @@ class Course(db.Model):
     @count.deleter
     def count(self):
         del self.__count
+
+
+    #Convertir objeto a JSON
+    def to_json(self):
+        course_json = {
+            'id': self.id,
+            'url': self.url,
+            'title': self.title,
+            'count': self.count
+        }
+        return course_json
+
+    @staticmethod
+    #Convertir JSON a objeto
+    def from_json(course_json):
+        id = course_json.get('id')
+        url = course_json.get('url')
+        title = course_json.get('title')
+        count = course_json.get('count')
+        return Course(id=id, 
+                      url=url, 
+                      title=title, 
+                      count=count)

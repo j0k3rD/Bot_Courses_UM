@@ -19,7 +19,7 @@ class ScrapServices:
         options = webdriver.ChromeOptions()
         options.add_argument('--start-maximized')
         options.add_argument('--disable-extensions')
-        options.add_argument('headless');
+        options.add_argument('headless')
         options.add_argument('window-size=0x0') ##Comentar para ver como funciona
         return options
 

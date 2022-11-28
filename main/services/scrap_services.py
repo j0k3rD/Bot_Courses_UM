@@ -1,9 +1,13 @@
 from main.services.browser import Browser
-from .browser_firefox import BrowserFirefox
+from .browser_firefox import FirefoxBrowser
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
 from main.models import CourseModel
+from ..import db
+from main.repositories.course_repository import CourseRepository
+from flask import request
+
 
 class ScrapServices:
 
@@ -14,9 +18,9 @@ class ScrapServices:
         html = self.browser.search(keyword, url)
         self.parser(html)
 
-    def save_data(self, datalist):
-        #TODO: guardar los 
-        pass
+    def save_data(self, data:CourseModel):
+        db.session.add(data)
+        db.session.commit()
 
     def parser(self, html:WebDriver):
         course_search = html.find_element(By.ID,
@@ -35,3 +39,7 @@ class ScrapServices:
                 if href != None:
                     title = card_course.find_element(By.CLASS_NAME, "h5 no-margin bold inline-block".replace(" ", "."))
                     print(title.text)
+                    #Guardar en la base de datos
+                    data = CourseModel(url=href, title=title.text, count=0)
+                    course_repository = CourseRepository()
+                    course_repository.create(data)

@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 
-home = Blueprint('home',__name__)
+
+home = Blueprint('home',__name__, url_prefix='/')
 
 @home.route('/', methods=['GET'])
 def index():

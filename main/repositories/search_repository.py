@@ -1,9 +1,13 @@
 from main.repositories.irepository import Create, Delete, Read, Update 
 from .. import db
 
+
 class SearchRepository(Create, Read, Delete):
 
     def create(self, model: db.Model):
+        pass
+
+    def update(self, model: db.Model):
         pass
 
     def delete(self, model: db.Model):

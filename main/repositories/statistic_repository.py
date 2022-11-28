@@ -1,5 +1,7 @@
 from main.repositories.irepository import Create, Read
 from .. import db
+
+
 class StatisticRepository(Create, Read):
 
     def create(self, model: db.Model):

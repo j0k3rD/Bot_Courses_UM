@@ -1,6 +1,7 @@
-from botCursos_UM.main.models.course import Course
+from ..models.course import Course
 from main.repositories.irepository import Create, Delete, Read, Update
 from .. import db
+
 
 class CourseRepository(Create, Read, Update, Delete):
     def __init__(self,):
