@@ -1,0 +1,43 @@
+@startuml:
+class User {
+    - id
+    - discord_id
+    - name 
+}
+ class Search{
+    - id
+    - keywords
+    - date
+    - user_id
+
+ }
+
+ class Course{
+    - id
+    - url
+    - title
+    - count
+}
+
+class Bot{
+    - discord_token
+    - discord_guild
+    + load_env()
+    
+
+}
+
+class Statistic{
+    - id
+    - user_id
+    - course_id
+}
+
+User -- Search
+Search -- Course
+
+
+@enduml
+
+
+
