@@ -1,2 +1,0 @@
-flask discord utilización de API Oauth2 de discord
-https://flask-discord.readthedocs.io/en/latest/introduction.html
