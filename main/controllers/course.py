@@ -40,9 +40,9 @@ class Course(Resource):
 
 
 class Courses(Resource):
-    
+
     def get(self):
-        return course_schema.dump(course_repository.find_all(), many=True)
+        courses = db.session.query(CourseModel)
         
     def post(self):
         services = ScrapServices()

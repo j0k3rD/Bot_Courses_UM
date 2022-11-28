@@ -41,17 +41,21 @@ def create_app():
     from main.resources import scrapblue, home 
     app.register_blueprint(home,url_prefix="/api/v1")
     app.register_blueprint(scrapblue,url_prefix="/api/v1")
-
-    # Usamos multiprocessing para crear un proceso aparte para el bot de discord
+    
     #Inicializamos el bot
     bot = commands.Bot(command_prefix=app.config['DISCORD_PREFIX'], intents=app.config['DISCORD_INTENTS'])
+
 
     @bot.command(name='search')
     async def search(ctx, keyword: str):
         response = requests.get(f'http://127.0.0.1:5000/api/v1/search/firefox/{keyword}')
         await ctx.send(response.json()['status'])
+
         
-    p = Process(target=bot.run, args=(app.config['DISCORD_TOKEN'],))
-    p.start()
-    
-    return app
+    #Usamos multiprocessing para ejecutar el bot y la API
+    p1 = Process(target=bot.run, args=(app.config['DISCORD_TOKEN'],))
+    p2 = Process(target=app.run, args=(os.getenv('API_HOST'),os.getenv('API_PORT')))
+    p1.start()
+    p2.start()
+    p1.join()
+    p2.join()

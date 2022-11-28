@@ -7,7 +7,7 @@ scrapblue = Blueprint('scrapblue',__name__, url_prefix='/')
 @scrapblue.route('/search/<browser>/<keyword>/', methods=['GET'])
 def search(browser:str,keyword:str):
     if browser.lower() != "chrome" and browser.lower() != "firefox":
-        resp = jsonify({'status':'Invalid browser option!'})
+        resp = jsonify({'status':'Invalid browser option! (Choose between "chrome" or "firefox")'})
         resp.status_code = 404
     else:
         if browser.lower() == "firefox":

@@ -5,8 +5,8 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
 from main.models import CourseModel
 from ..import db
-from main.repositories.course_repository import CourseRepository
-from flask import request
+from flask import Blueprint, jsonify
+
 
 
 class ScrapServices:
@@ -22,6 +22,9 @@ class ScrapServices:
         db.session.add(data)
         db.session.commit()
 
+    def send_data(self, data):
+        return data
+
     def parser(self, html:WebDriver):
         course_search = html.find_element(By.ID,
                                 'courses_search')
@@ -33,13 +36,17 @@ class ScrapServices:
             for card_course in list_courses:
                 url_course = card_course.get_attribute('href')
                 if url_course != None:
-                    print("Curso", url_course)
+                    pass
+                    # print("Curso", url_course)
                 
                 href = card_course.get_attribute("href")
                 if href != None:
                     title = card_course.find_element(By.CLASS_NAME, "h5 no-margin bold inline-block".replace(" ", "."))
-                    print(title.text)
+                    # print(title.text)
                     #Guardar en la base de datos
-                    data = CourseModel(url=href, title=title.text, count=0)
-                    course_repository = CourseRepository()
-                    course_repository.create(data)
+                    # data = CourseModel(url=href, title=title.text, count=0)
+                    # course_repository = CourseRepository()
+                    # course_repository.create(data)
+                    data = title.text, url_course
+                    print(data)
+
