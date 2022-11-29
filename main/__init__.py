@@ -49,8 +49,7 @@ def create_app():
     @bot.command(name='search')
     async def search(ctx, keyword: str):
         response = requests.get(f'http://127.0.0.1:5000/api/v1/search/firefox/{keyword}')
-        await ctx.send(response.json()['status'])
-
+        await ctx.send(response.json()['message'])
         
     #Usamos multiprocessing para ejecutar el bot y la API
     p1 = Process(target=bot.run, args=(app.config['DISCORD_TOKEN'],))

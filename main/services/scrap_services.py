@@ -16,15 +16,23 @@ class ScrapServices:
 
     def search(self, keyword:str, url:str):
         html = self.browser.search(keyword, url)
-        self.parser(html)
+        res = self.parser(html)
+        courses = self.send_data(res)
+        return courses
+        
 
     def save_data(self, data:CourseModel):
         db.session.add(data)
         db.session.commit()
 
+    #Mostrar al usuario los datos scrapeados
     def send_data(self, data):
-        return data
+        course_list = []
+        for course in data:
+            course_list.append(course)
+        return course_list
 
+        
     def parser(self, html:WebDriver):
         course_search = html.find_element(By.ID,
                                 'courses_search')
@@ -48,5 +56,4 @@ class ScrapServices:
                     # course_repository = CourseRepository()
                     # course_repository.create(data)
                     data = title.text, url_course
-                    print(data)
-
+                    return data
