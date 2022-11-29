@@ -1,9 +1,17 @@
 from main.repositories.irepository import Create, Delete, Read, Update 
+from main.models import UserModel
 from .. import db
 
 
 class UserRepository(Create, Read, Update, Delete):
 
+    def __init__(self):
+        self.__type_model = UserModel
+
+    @property
+    def type_model(self):
+        return self.__type_model
+    
     def create(self, model: db.Model):
         db.session.add(model) 
         db.session.commit() 
