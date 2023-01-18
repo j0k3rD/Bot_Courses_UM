@@ -17,14 +17,13 @@ class User {
     - url
     - title
     - count
+    - search_id
 }
 
 class Bot{
     - discord_token
     - discord_guild
     + load_env()
-    
-
 }
 
 class Statistic{
