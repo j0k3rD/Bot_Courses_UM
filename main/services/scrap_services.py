@@ -31,17 +31,21 @@ class ScrapServices:
 
     #Mostrar al usuario los datos scrapeados
     def send_data(self, data):
-        return data[0], data[1], data[2], data[3]
+        if len(data) < 3:
+            return jsonify({'message': 'No se encontraron cursos'})
+        else:
+            return data[0], data[1], data[2]
         
     def parser(self, html:WebDriver):
         title_course = html.find_elements("xpath","//h2[@class='no-margin-bottom normal-line-height f-text-22 ibm bold-600 f-top-12']")
         # title_courses = [   title.text    for title in title_courses]
-
+        if title_course != None:
+            pass
         url_courses = html.find_elements("xpath","//h2[@class='no-margin-bottom normal-line-height f-text-22 ibm bold-600 f-top-12']//a[1]")
         url_courses = [   url.get_attribute('href')    for url in url_courses]
-
-        '''para cada titulo su respectiva url y guardar en lista'''
-        for title, url in zip(title_course, url_courses):
-            data = title.text, url
-            self.course_list.append(data)
-        return self.course_list
+        if url_courses != None:
+            '''juntar titulo y url y almacenar cada uno en una lista'''
+            for i in range(len(title_course)):
+                self.course_list.append([title_course[i].text, url_courses[i]])
+                print(self.course_list)
+            return self.course_list

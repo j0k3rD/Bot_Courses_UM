@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 from main.services import ScrapServices, FirefoxBrowser, ChromeBrowser
+import urllib.parse
 
 
 scrapblue = Blueprint('scrapblue',__name__, url_prefix='/')
@@ -16,10 +17,15 @@ def search(browser:str,keyword:str):
             browser_web = ChromeBrowser()
             
         scrap_service = ScrapServices(browser_web)
-        courses = scrap_service.search(keyword, "https://codigofacilito.com/courses?utf8=✓&search[keyword]")
-        message = f"Encontre unos Cursos sobre **{keyword}** justo para vos!: \n1- *{courses[0]}* \n2- *{courses[1] }* \n3- *{courses[2]}*"
-        resp = jsonify({'status':'search_complete',
+        courses = scrap_service.search(urllib.parse.quote(keyword), "https://codigofacilito.com/courses?utf8=✓&search[keyword]")
+        if courses == None:
+            resp = jsonify({'status':'search_error',
+                            'message':'Error searching courses'})
+            resp.status_code = 404
+        else:
+            message = f"Encontre unos Cursos sobre **{keyword}** justo para vos!: \n1- *{courses[0]}* \n2- *{courses[1] }* \n3- *{courses[2]}*"
+            resp = jsonify({'status':'search_complete',
                         'message':message})
-        resp.status_code = 200
+            resp.status_code = 200
             
     return resp 
