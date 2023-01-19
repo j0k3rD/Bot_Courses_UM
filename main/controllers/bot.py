@@ -16,3 +16,8 @@ class Bot():
             await ctx.send(response.json()['message'])
 
         return Process(target=bot.run, args=(os.getenv('DISCORD_TOKEN'),))
+
+    #Agregar para sacar el nombre del usuario
+
+
+    #Agregar para sacar el # del usuario de ds
