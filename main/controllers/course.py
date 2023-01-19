@@ -6,10 +6,8 @@ from ..repositories import CourseRepository
 from main.models import CourseModel
 from ..import db
 
-
 course_schema = CourseSchema()
 course_repository = CourseRepository()
-
 
 class Course(Resource):
 

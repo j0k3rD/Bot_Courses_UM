@@ -4,7 +4,7 @@ from .user_schema import UserSchema
 from .course_schema import CourseSchema
 
 
-class StatisticsSchema(Schema):
+class StatisticSchema(Schema):
     id = fields.Int(dump_only=True)
     user_id = fields.Int(required=True, validate=validate.Range(min=0))
     user = fields.Nested(UserSchema)
