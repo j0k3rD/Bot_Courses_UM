@@ -6,11 +6,10 @@ class Statistic(db.Model):
     __tablename__ = 'statistics'
     __id = db.Column('id', db.Integer, primary_key=True, nullable=False)
 
-    __user_id = db.relationship('User', backref='statistics')
-    user = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    __course_id = db.relationship('Course', backref='statistics')
-    course = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
-
+    __user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref='statistics')
+    __course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    course = db.relationship('Course', backref='statistics')
 
     def __repr__(self):
         return f'< User:  {self.__id} {self.__user_id} {self.__course_id}>'

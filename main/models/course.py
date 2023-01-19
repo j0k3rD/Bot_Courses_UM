@@ -7,9 +7,11 @@ class Course(db.Model):
     __url = db.Column('url', db.String(100), nullable = False)
     __title = db.Column('title', db.String(100), nullable = False)
     __count = db.Column('count', db.Integer, nullable = False)
+    __search_id = db.Column('search_id', db.ForeignKey('search.id'), nullable=False)
+    search = db.relationship('Search', backref='courses')
 
     def __repr__(self):
-        return f'< Course:  {self.__id} {self.__url} {self.__title}, {self.__count}>'
+        return f'< Course: {self.__id} {self.__url} {self.__title}, {self.__count}>'
 
     @hybrid_property
     def id(self):
@@ -57,4 +59,16 @@ class Course(db.Model):
     
     @count.deleter
     def count(self):
+        del self.__count
+
+    @hybrid_property
+    def search_id(self):
+        return self.__search_id
+    
+    @count.setter
+    def search_id(self,count):
+        self.__search_id = count
+    
+    @count.deleter
+    def search_id(self):
         del self.__count
