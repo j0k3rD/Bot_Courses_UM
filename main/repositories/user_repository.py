@@ -1,4 +1,4 @@
-from main.repositories.irepository import Create, Delete, Read, Update 
+from main.repositories.repository import Create, Delete, Read, Update 
 from main.models import UserModel
 from .. import db
 

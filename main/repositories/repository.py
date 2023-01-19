@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from .. import db
 
+# Clase abstracta que define los métodos que deben implementar las clases que hereden de ella.
 
 class Create(ABC):
     @abstractmethod  
