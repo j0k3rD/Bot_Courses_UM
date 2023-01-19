@@ -32,7 +32,7 @@ class ScrapServices:
     #Mostrar al usuario los datos scrapeados
     def send_data(self, data):
         if len(data) < 3:
-            return jsonify({'message': 'No se encontraron cursos'})
+            return None
         else:
             return data[0], data[1], data[2]
         
