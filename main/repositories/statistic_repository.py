@@ -9,7 +9,6 @@ class StatisticRepository(Create, Read):
         db.session.commit() 
         return model 
 
-
     def find_all(self):
         return db.session.query(db.Model).all()
 

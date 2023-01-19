@@ -45,7 +45,6 @@ def create_app():
     #Inicializamos el bot
     bot = commands.Bot(command_prefix=app.config['DISCORD_PREFIX'], intents=app.config['DISCORD_INTENTS'])
 
-
     @bot.command(name='search')
     async def search(ctx, keyword: str):
         response = requests.get(f'http://127.0.0.1:5000/api/v1/search/firefox/{keyword}')

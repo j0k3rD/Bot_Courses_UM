@@ -2,9 +2,9 @@
 
 actor Bot
 boundary SearchController
-participant ClienteService
+participant SearchService
 participant SearchRepositorio
-participant ClienteSchema
+participant SearchSchema
 entity SearchModel
 database data
 
@@ -14,11 +14,11 @@ SearchController -> SearchModel: get_or_404()
 activate SearchModel
 SearchModel -> data: query (SELECT)
 SearchModel <- data: Register
-ClienteSchema <- SearchModel: Objeto search
+SearchSchema <- SearchModel: Objeto search
 deactivate SearchModel
-activate ClienteSchema
-SearchRepositorio <- ClienteSchema: Json search
-deactivate ClienteSchema
+activate SearchSchema
+SearchRepositorio <- SearchSchema: Json search
+deactivate SearchSchema
 activate SearchRepositorio
 SearchController <- SearchRepositorio: SearchModel
 deactivate SearchRepositorio

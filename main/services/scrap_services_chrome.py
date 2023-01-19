@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC #Para añadir c
 from selenium.webdriver.common.by import By #Ayuda a configurar esas busquedas
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.remote.webdriver import WebDriver
 #import pandas as pd
 
 #User search variable
@@ -16,40 +17,41 @@ class ScrapServices:
 
     def __get_options(self):
         #Navegation Options
-        options = webdriver.ChromeOptions()
-        options.add_argument('--start-maximized')
-        options.add_argument('--disable-extensions')
-        options.add_argument('headless')
-        options.add_argument('window-size=0x0') ##Comentar para ver como funciona
+        options = webdriver.FirefoxOptions()
+        #options.headless = True
+        options.set_preference("browser.cache.disk.enable", False)
+        options.set_preference("browser.cache.memory.enable", False)
+        options.set_preference("browser.cache.offline.enable", False)
+        options.set_preference("network.http.use-cache", False)
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.log.level = "INFO"
         return options
 
     def __get_browser(self):
-        # driver_path = "/usr/bin/chromedriver"
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.__get_options())
-        return driver
+        browser = webdriver.Firefox(options=self._Browser__get_options(), service=self._Browser__get_service())
+        #browser.set_window_position(0, 0)
+        return browser
 
-    def search(self, keyword:str):
-        #Open Browser
-        driver=self.__get_browser()
-        driver.get(f'https://codigofacilito.com/search?utf8=✓&keyword={keyword}')
+    def search(self, keyword:str, html:WebDriver):
 
-        WebDriverWait(driver,5)\
-        .until(EC.element_to_be_clickable((By.CSS_SELECTOR,
-                                            'div.f-card f-padding white'.replace(" ", "."))))\
-        .click()
+        course_search = html.find_element(By.CLASS_NAME,
+                                'courses-main-area relative'.replace(" ", "."))
 
-        #Cambiar de pestaña para copiar la URL
-        # driver.switch_to.window(driver.window_handles[1])
+        if course_search != None:
+            list_courses = course_search.find_elements(By.CLASS_NAME,
+                                'f-border f-border--light f-card-reveal f-card-reveal--active f-course-horizontal flex-block medium-radius overflow-hidden')
 
-        url_search = driver.current_url
+            for card_course in list_courses:
+                url_course = card_course.get_attribute("href")
+                if url_course != None:
+                    pass
+                
+                href = card_course.get_attribute("href")
+                if href != None:
+                    title = card_course.find_element(By.CLASS_NAME, "no-margin-bottom normal-line-height f-text-22 ibm bold-600 f-top-12".replace(" ", "."))
+                    data = title.text, url_course
+                    print(data)
 
-        print(url_search)
-
-    def save_data(self, data_list):
-        pass
-
-    def parser(self):
-        pass
-
-# a = ScrapServices()
-# a.search("python")
+a = ScrapServices()
+a.search("python", html=WebDriver)

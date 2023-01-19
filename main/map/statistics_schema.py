@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields, validate, post_load
-from main.models import StatisticsModel
+from main.models import StatisticModel
 
 
 class StatisticsSchema(Schema):
@@ -9,4 +9,4 @@ class StatisticsSchema(Schema):
     
     @post_load
     def make_statistics(self, data, **kwargs):
-        return StatisticsModel(**data)
+        return StatisticModel(**data)

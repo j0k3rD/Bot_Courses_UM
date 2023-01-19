@@ -6,7 +6,11 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from main.models import CourseModel
 from ..import db
 from flask import Blueprint, jsonify
+from ..repositories.course_repository import CourseRepository
+from ..map.course_schema import CourseSchema
 
+course_repository = CourseRepository()
+course_schema = CourseSchema()
 
 
 class ScrapServices:
@@ -27,29 +31,17 @@ class ScrapServices:
 
     #Mostrar al usuario los datos scrapeados
     def send_data(self, data):
-        return data[0], data[1], data[2]
+        return data[0], data[1], data[2], data[3]
         
     def parser(self, html:WebDriver):
-        course_search = html.find_element(By.ID,
-                                'courses_search')
+        title_course = html.find_elements("xpath","//h2[@class='no-margin-bottom normal-line-height f-text-22 ibm bold-600 f-top-12']")
+        # title_courses = [   title.text    for title in title_courses]
 
-        if course_search != None:
-            list_courses = course_search.find_elements(By.CLASS_NAME,
-                                'pointer')
+        url_courses = html.find_elements("xpath","//h2[@class='no-margin-bottom normal-line-height f-text-22 ibm bold-600 f-top-12']//a[1]")
+        url_courses = [   url.get_attribute('href')    for url in url_courses]
 
-            for card_course in list_courses:
-                url_course = card_course.get_attribute('href')
-                if url_course != None:
-                    pass
-                
-                href = card_course.get_attribute("href")
-                if href != None:
-                    title = card_course.find_element(By.CLASS_NAME, "h5 no-margin bold inline-block".replace(" ", "."))
-                    # print(title.text)
-                    #Guardar en la base de datos
-                    # data = CourseModel(url=href, title=title.text, count=0)
-                    # course_repository = CourseRepository()
-                    # course_repository.create(data)
-                data = title.text, url_course
-                self.course_list.append(data)
+        '''para cada titulo su respectiva url y guardar en lista'''
+        for title, url in zip(title_course, url_courses):
+            data = title.text, url
+            self.course_list.append(data)
         return self.course_list

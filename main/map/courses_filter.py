@@ -6,7 +6,7 @@ class CourseFilter():
     
     def __init__(self, course):
         self.__course = course
-        self.__filters = {   "id": self.__filter_by_id,
+        self.__filters = {  "id": self.__filter_by_id,
                             "url": self.__filter_by_url,
                             "title": self.__filter_by_title,
                             "count": self.__filter_by_count,

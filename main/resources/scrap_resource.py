@@ -16,10 +16,10 @@ def search(browser:str,keyword:str):
             browser_web = ChromeBrowser()
             
         scrap_service = ScrapServices(browser_web)
-        courses = scrap_service.search(keyword, "https://codigofacilito.com/search?utf8=✓&keyword")
+        courses = scrap_service.search(keyword, "https://codigofacilito.com/courses?utf8=✓&search[keyword]")
         message = f"Encontre unos Cursos sobre **{keyword}** justo para vos!: \n1- *{courses[0]}* \n2- *{courses[1] }* \n3- *{courses[2]}*"
         resp = jsonify({'status':'search_complete',
                         'message':message})
         resp.status_code = 200
             
-    return resp
+    return resp 

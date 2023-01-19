@@ -1,0 +1,14 @@
+@startuml Casos de Uso
+
+' Cliente --> (Enviar peticiones al Bot)
+
+' Bot --> (Envia respuesta al Cliente)
+
+left to right direction
+actor "Cliente" as c
+rectangle Bot {
+  usecase "Pide Informacion sobre Cursos" as UC1
+}
+c --> UC1
+
+@enduml
