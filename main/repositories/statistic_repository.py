@@ -1,4 +1,4 @@
-from main.repositories.irepository import Create, Read
+from main.repositories.repository import Create, Read
 from main.models import StatisticModel
 from .. import db
 

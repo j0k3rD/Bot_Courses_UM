@@ -1,12 +1,9 @@
 # Import librerias y frameworks
-import os
+import os, sys
 from flask import Flask
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
-from discord.ext import commands
 import discord
-from discord.ext import commands
-import requests
 from multiprocessing import Process
 
 
@@ -16,16 +13,6 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     load_dotenv()
-
-    #Configuramos el TOKEN
-    app.config['DISCORD_TOKEN'] = os.getenv('DISCORD_TOKEN')
-
-    #Configuramos el PREFIX
-    app.config['DISCORD_PREFIX'] = os.getenv('DISCORD_PREFIX')
-
-    #Configuramos el INTENTS
-    app.config['DISCORD_INTENTS'] = discord.Intents.default()
-    app.config['DISCORD_INTENTS'].message_content = True
 
     #Cargo la configuracion de la base de datos
     app.config['API_URL'] = os.getenv('API_URL')
@@ -41,17 +28,13 @@ def create_app():
     from main.resources import scrapblue, home 
     app.register_blueprint(home,url_prefix="/api/v1")
     app.register_blueprint(scrapblue,url_prefix="/api/v1")
-    
-    #Inicializamos el bot
-    bot = commands.Bot(command_prefix=app.config['DISCORD_PREFIX'], intents=app.config['DISCORD_INTENTS'])
 
-    @bot.command(name='search')
-    async def search(ctx, keyword: str):
-        response = requests.get(f'http://127.0.0.1:5000/api/v1/search/firefox/{keyword}')
-        await ctx.send(response.json()['message'])
-        
+    from main.controllers.bot import Bot
+
+    bot = Bot()
+
     #Usamos multiprocessing para ejecutar el bot y la API
-    p1 = Process(target=bot.run, args=(app.config['DISCORD_TOKEN'],))
+    p1 = bot.bot_up()
     p2 = Process(target=app.run, args=(os.getenv('API_HOST'),os.getenv('API_PORT')))
     p1.start()
     p2.start()
