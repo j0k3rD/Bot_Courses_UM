@@ -23,7 +23,6 @@ class User {
 class Bot{
     - discord_token
     - discord_guild
-    + load_env()
 }
 
 class Statistic{
