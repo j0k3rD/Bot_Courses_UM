@@ -1,5 +1,5 @@
 from discord.ext import commands
-import os, requests, discord
+import os, requests, discord, datetime
 from multiprocessing import Process
 import ast
 
@@ -19,7 +19,7 @@ class Bot():
                 embed = discord.Embed(title = f"No se encontraron cursos sobre *{keyword}*. Por favor, intenta con otra palabra clave.", description = "Para mas Cursos *!search* ;)", color=discord.Color.red())
                 embed.set_author(name=ctx.message.author)
                 embed.set_footer(text="Cursos de Codigo Facilito")
-                embed.timestamp = ctx.message.created_at()
+                embed.timestamp = datetime.datetime.now()
                 await ctx.send(embed=embed)
                 return
             else:
@@ -30,9 +30,9 @@ class Bot():
                 for i in range(3):
                     embed.add_field(name=f"📕 - {x[i][0]}", value=f"{x[i][1]}", inline=False)
                 embed.set_author(name=ctx.message.author)
-                # embed.thumbnail(url="https://cdn-icons-png.flaticon.com/512/6008/6008363.png")
-                # embed.set_image(url="https://cdn-icons-png.flaticon.com/512/6008/6008363.png")
-                embed.timestamp = ctx.message.created_at()
+                embed.set_thumbnail(url="https://cdn-icons-png.flaticon.com/512/6008/6008363.png")
+                embed.set_image(url="https://codigofacilito.com/assets/white_logo-510fe55f58bcf8a3a9d9d33455510116c8d401a942973676a701532266bd0220.png")
+                embed.timestamp = datetime.datetime.now()
                 embed.set_footer(text="Cursos de Codigo Facilito")
                 await ctx.send(embed=embed)
         return Process(target=bot.run, args=(os.getenv('DISCORD_TOKEN'),))
