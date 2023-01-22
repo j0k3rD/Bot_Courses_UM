@@ -17,9 +17,9 @@ class ScrapServices:
 
     def __init__(self, browser:Browser):
         self.browser = browser
-        self.title_list = []
-        self.url_list = []
-        self.course_list = []
+        # self.title_list = []
+        # self.url_list = []
+        # self.course_list = []
 
     def search(self, keyword:str, url:str):
         html = self.browser.search(keyword, url)
@@ -33,9 +33,9 @@ class ScrapServices:
 
     #Mostrar al usuario los datos scrapeados
     def send_data(self, data):
-        # if len(data) < 3:
-        #     return None
-        # else:
+        if len(data) == 0:
+            return None
+        else:
             return data
         
     def parser(self, html:WebDriver):
@@ -46,12 +46,8 @@ class ScrapServices:
         url_courses = html.find_elements("xpath","//h2[@class='no-margin-bottom normal-line-height f-text-22 ibm bold-600 f-top-12']//a[1]")
         url_courses = [   url.get_attribute('href')    for url in url_courses]
         if url_courses != None:
-            '''juntemos los datos'''
+            '''juntemos los dos'''
+            course_list = []
             for i in range(len(title_course)):
-                self.title_list.append(title_course[i])
-                self.url_list.append(url_courses[i])
-            for i in range(len(self.title_list)):
-                self.course_list.append(CourseModel(title=self.title_list[i], url=self.url_list[i]))
-            return self.course_list
-        else:
-            return None
+                course_list.append((title_course[i],url_courses[i]))
+            return course_list
