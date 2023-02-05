@@ -38,13 +38,14 @@ class User(Resource):
             return '', 404
 
 
-class Courses(Resource):
+class Users(Resource):
 
-    # def get(self):
-    #     return user_schema.dump(service.get_courses(), many=True)
+    def get(self):
+        users = db.session.query(UserModel).all()
+        return user_schema.dump(users, many=True)
         
     def post(self):
-        course = user_schema.load(request.get_json())
-        db.session.add(course)
+        user = user_schema.load(request.get_json())
+        db.session.add(user)
         db.session.commit()
-        return user_schema.dump(course), 201
+        return user_schema.dump(user), 201

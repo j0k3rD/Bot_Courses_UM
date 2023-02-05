@@ -3,9 +3,10 @@ from flask import request
 from main.services import SearchService
 from ..repositories import SearchRepository
 from main.models import SearchModel
+from main.map import CourseSchema
 from .. import db
 
-course_schema = SearchSchema()
+course_schema = CourseSchema()
 course_repository = SearchRepository()
 service = SearchService
 

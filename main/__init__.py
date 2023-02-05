@@ -3,9 +3,12 @@ import os, sys
 from flask import Flask
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from flask_restful import Api
 import discord
 from multiprocessing import Process
 
+# Inicializo Api
+api = Api()
 
 # Inicializo SQLAlchemy
 db = SQLAlchemy()
@@ -25,11 +28,18 @@ def create_app():
     # Url de configuración de base de datos
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////'+os.getenv('DATABASE_PATH')+os.getenv('DATABASE_NAME')
     db.init_app(app)
+
+    
     from main.resources import scrapblue, home 
     app.register_blueprint(home,url_prefix="/api/v1")
     app.register_blueprint(scrapblue,url_prefix="/api/v1")
 
+    import main.controllers as controllers
     from main.controllers.bot import Bot
+
+    api.add_resource(controllers.UserController, '/api/v1/user/<int:id>')
+    api.add_resource(controllers.UsersController, '/api/v1/users')
+    api.init_app(app)
 
     bot = Bot()
 

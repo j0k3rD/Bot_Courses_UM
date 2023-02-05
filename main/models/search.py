@@ -7,7 +7,11 @@ class Search(db.Model):
     __keywords = db.Column('keywords', db.String(100), nullable = False)
     __date = db.Column('date', db.DateTime, nullable=False)
     __user_id = db.Column('user_id', db.ForeignKey('users.id'), nullable=False)
+
+    #Relacion con User
     user = db.relationship('User', backref='searchs')
+    #Relacion con Course
+    courses = db.relationship('Course', back_populates='search')
 
     def __repr__(self):
         return f'< User:  {self.__id} {self.__keywords} {self.__date}, {self.__user_id}>'

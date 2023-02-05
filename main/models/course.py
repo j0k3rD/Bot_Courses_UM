@@ -7,8 +7,10 @@ class Course(db.Model):
     __url = db.Column('url', db.String(100), nullable = False)
     __title = db.Column('title', db.String(100), nullable = False)
     __count = db.Column('count', db.Integer, nullable = False)
-    __search_id = db.Column('search_id', db.ForeignKey('search.id'), nullable=False)
-    search = db.relationship('Search', backref='courses')
+    __search_id = db.Column('search_id', db.ForeignKey('searchs.id'), nullable=False)
+
+    #Relacion con Search
+    search = db.relationship('Search', back_populates='courses')
 
     def __repr__(self):
         return f'< Course: {self.__id} {self.__url} {self.__title}, {self.__count}>'
