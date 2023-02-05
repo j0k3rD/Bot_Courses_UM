@@ -3,14 +3,14 @@ from .browser_firefox import FirefoxBrowser
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.remote.webdriver import WebDriver
-from main.models import CourseModel
+from main.models import SearchModel
 from ..import db
 from flask import Blueprint, jsonify
-from ..repositories.course_repository import CourseRepository
-from ..map.course_schema import CourseSchema
+from ..repositories.course_repository import SearchRepository
+from ..map.course_schema import SearchSchema
 
-course_repository = CourseRepository()
-course_schema = CourseSchema()
+course_repository = SearchRepository()
+course_schema = SearchSchema()
 
 
 class ScrapServices:
@@ -27,7 +27,7 @@ class ScrapServices:
         res = self.send_data(course)
         return res
         
-    def save_data(self, data:CourseModel):
+    def save_data(self, data:SearchModel):
         db.session.add(data)
         db.session.commit()
 

@@ -1,23 +1,22 @@
 from flask_restful import Resource
 from flask import request
-from main.services import CourseService
-from main.map import CourseSchema
-from ..repositories import CourseRepository
-from main.models import CourseModel
+from main.services import SearchService
+from ..repositories import SearchRepository
+from main.models import SearchModel
 from .. import db
 
-course_schema = CourseSchema()
-course_repository = CourseRepository()
-service = CourseService
+course_schema = SearchSchema()
+course_repository = SearchRepository()
+service = SearchService
 
 class Course(Resource):
 
     def get(self, id):
-        course = db.session.query(CourseModel).get_or_404(id)
+        course = db.session.query(SearchModel).get_or_404(id)
         return course_schema.dump(course), 201
             
     def delete(self, id):
-        course = db.session.query(CourseModel).get_or_404(id)
+        course = db.session.query(SearchModel).get_or_404(id)
         try:
             db.session.delete(course)
             db.session.commit()
@@ -26,7 +25,7 @@ class Course(Resource):
             return '', 404
 
     def put(self, id):
-        course = db.session.query(CourseModel).get_or_404(id)
+        course = db.session.query(SearchModel).get_or_404(id)
         data = request.get_json().items()
         for key, value in data:
             setattr(course, key, value)

@@ -1,34 +1,31 @@
 from .. import db
 from main.models import SearchModel
-from main.map import CourseSchema
+from main.map import SearchSchema
 from .command import Command, Task
 from flask import request
 
+search_schema = SearchSchema()
 
-course_schema = CourseSchema()
+class SearchService:
 
-
-class CourseService:
-
-    def add_course(self):
-        course = course_schema.load(request.get_json())
-        if self.register_course(course):
-            db.session.add(course)
+    def add_search(self):
+        search = search_schema.load(request.get_json())
+        if self.register_search(search):
+            db.session.add(search)
             db.session.commit()
-            print('Return course')
-            return course
+            return search
         return False  
 
-    def get_courses(self):
+    def get_searches(self):
         course = db.session.query(SearchModel).all()
         return course
 
-    def register_course(self, course):
+    def register_search(self, search):
         task = Task()
-        task.execute(course)
+        task.execute(search)
 
     
-class SaveCourse(Command):
+class SaveSearch(Command):
 
     def execute(self, course):
         try:
