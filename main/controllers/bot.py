@@ -46,7 +46,6 @@ class Bot():
                 embed.timestamp = datetime.datetime.now()
                 embed.set_footer(text=BotConstants.SET_FOOTER)
                 await ctx.send(embed=embed)
-                self.save_course(course_info = x)
 
         return Process(target=bot.run, args=(os.getenv('DISCORD_TOKEN'),))
 
