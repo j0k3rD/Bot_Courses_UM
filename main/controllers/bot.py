@@ -30,7 +30,7 @@ class Bot():
 
                 # Guardar información del usuario
                 user_id = ctx.message.author.id
-                user_name = ctx.author.name
+                user_name = ctx.message.author
                 self.save_user(user_name = user_name, user_id = user_id)
 
                 # Guardar lo escrito por el usuario
@@ -59,6 +59,3 @@ class Bot():
 
     def save_course(self, courses):
         print(f"Los cursos encontrados son: {courses}") 
-
-    #Agregar para sacar el nombre del usuario
-    #Agregar para sacar el # del usuario de ds
