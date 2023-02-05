@@ -29,7 +29,9 @@ class Bot():
                 x = ast.literal_eval(response.json()['message'])
 
                 # Guardar información del usuario
-                self.save_user(user_name = ctx.message.author.mention, user_id = ctx.message.author.id)
+                user_id = ctx.message.author.id
+                user_name = ctx.author.name
+                self.save_user(user_name = user_name, user_id = user_id)
 
                 # Guardar lo escrito por el usuario
                 self.save_search(keywords = keyword, user_id = ctx.message.author.id)
