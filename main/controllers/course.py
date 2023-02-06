@@ -1,14 +1,16 @@
 from flask_restful import Resource
+from flask import request
 from main.services import CourseService
 from main.map import CourseSchema
+from .controller import Single, Multiple
 
-course_schema = CourseSchema()
+schema = CourseSchema()
 service = CourseService()
 
-class Course(Resource):
+class Course(Single, Resource):
 
     def get(self, id):
-        return course_schema.dump(service.get_by_id(id)), 201
+        return schema.dump(service.get_by_id(id)), 201
             
     def delete(self, id):
         pass
@@ -17,10 +19,11 @@ class Course(Resource):
         pass
 
 
-class Courses(Resource):
+class Courses(Multiple, Resource):
 
     def get(self):
-        pass
+        return schema.dump(service.get_all()), 201
         
     def post(self):
-        pass
+        model = schema.load(request.get_json())
+        return schema.dump(service.add(model)), 201

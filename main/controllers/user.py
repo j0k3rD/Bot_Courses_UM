@@ -1,14 +1,16 @@
 from flask_restful import Resource
+from flask import request
 from main.services import UserService
 from main.map import UserSchema
+from .controller import Single, Multiple
 
-user_schema = UserSchema()
+schema = UserSchema()
 service = UserService()
 
-class User(Resource):
+class User(Single, Resource):
 
     def get(self, id):
-        return user_schema.dump(service.get_by_id(id)), 201
+        return schema.dump(service.get_by_id(id)), 201
             
     def delete(self, id):
         pass
@@ -17,10 +19,11 @@ class User(Resource):
         pass
 
 
-class Users(Resource):
+class Users(Multiple, Resource):
 
     def get(self):
-        pass
+        return schema.dump(service.get_all()), 201
 
     def post(self):
-        pass
+        model = schema.load(request.get_json())
+        return schema.dump(service.add(model)), 201
