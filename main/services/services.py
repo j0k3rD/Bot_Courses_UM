@@ -3,13 +3,13 @@ from abc import ABC, abstractmethod
 class Service(ABC):
     
     @abstractmethod  
-    def add_course(self, course):
+    def add(self, model):
         pass
 
     @abstractmethod    
-    def get_courses(self):
+    def get_all(self):
         pass
 
-    @abstractmethod  
-    def obtener_cuota(self, id):
+    @abstractmethod
+    def get_by_id(self, id):
         pass

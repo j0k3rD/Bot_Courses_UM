@@ -1,15 +1,15 @@
 from main.repositories import UserRepository
 from main.services.services import Service
 
-repository = UserRepository
+repository = UserRepository()
 
 class UserService(Service):
 
-    def add_user(self, course):
-        return repository.create(course)
+    def add(self, model):
+        return repository.create(model)
         
-    def get_users(self):
+    def get_all(self):
         return repository.find_all()
 
-    def get_user(self, id):
+    def get_by_id(self, id):
         return repository.find_by_id(id = id)
