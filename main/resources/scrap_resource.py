@@ -18,8 +18,6 @@ def search(browser:str,keyword:str):
             
         scrap_service = ScrapServices(browser_web)
         courses = scrap_service.search(urllib.parse.quote(keyword), "https://codigofacilito.com/courses?utf8=✓&search[keyword]")
-        # close_browser = courses[1]
-        courses = courses[0]
         if courses == None:
             resp = jsonify({'status':'search_error'})
             resp.status_code = 404

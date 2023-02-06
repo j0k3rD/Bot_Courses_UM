@@ -26,7 +26,7 @@ class ScrapServices:
         course = self.parser(html)
         res = self.send_data(course)
         html.close()
-        return res, self
+        return res
         
     def save_data(self, data:SearchModel):
         db.session.add(data)
