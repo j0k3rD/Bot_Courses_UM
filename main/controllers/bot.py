@@ -3,8 +3,7 @@ import os, requests, discord, datetime
 from multiprocessing import Process
 import ast
 from main.constants.bot import BotConstants
-from main.map import UserSchema, SearchSchema, CourseSchema
-from main.services import UserService, SearchService, CourseService
+
 
 class Bot():
 
@@ -56,16 +55,15 @@ class Bot():
 
     def save_user(self, user_name, user_id):
 
-        # TODO: Comentar el código
-        user = UserSchema()
-        user_data = {
-            'discord_id': user_id,
-            'name': user_name
-        }
-        user = user.load(user_data)
+        api_url = os.getenv('API_URL')
 
-        user_service = UserService()
-        user_service.add(user)
+        # TODO: Comentar el código
+        user_data = {
+            'discord_id': str(user_id),
+            'name': str(user_name)
+        }
+
+        r = requests.post(url = f"{api_url}users", data = user_data)
 
     def save_search(self, keywords, user_id):
         print(f"El usuario con id {user_id}, escribio {keywords}")
