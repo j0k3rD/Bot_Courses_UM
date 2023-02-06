@@ -43,7 +43,6 @@ class ScrapServices:
     def close_browser(self):
         self.browser.close()
 
-    
     def parser(self, html:WebDriver):
         title_course = html.find_elements("xpath","//h2[@class='no-margin-bottom normal-line-height f-text-22 ibm bold-600 f-top-12']")
         title_course = [   title.text    for title in title_course]

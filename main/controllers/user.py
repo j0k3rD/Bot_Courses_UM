@@ -8,8 +8,7 @@ service = UserService()
 class User(Resource):
 
     def get(self, id):
-        print(id)
-        return user_schema.dump(service.get_by_id(id)), 200
+        return user_schema.dump(service.get_by_id(id)), 201
             
     def delete(self, id):
         pass

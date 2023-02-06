@@ -2,7 +2,6 @@ from main.repositories.repository import Create, Delete, Read, Update
 from main.models import CourseModel
 from .. import db
 
-
 class CourseRepository(Create, Read, Update, Delete):
     
     def __init__(self,):

@@ -2,7 +2,6 @@ from main.repositories.repository import Create, Read
 from main.models import StatisticModel
 from .. import db
 
-
 class StatisticRepository(Create, Read):
 
     def __init__(self):
@@ -16,6 +15,11 @@ class StatisticRepository(Create, Read):
         db.session.add(model) 
         db.session.commit() 
         return model 
+
+    def update(self, model: db.Model) -> db.Model:
+         db.session.merge(model)
+         db.session.commit() 
+         return model
 
     def find_all(self):
         return db.session.query(db.Model).all()
