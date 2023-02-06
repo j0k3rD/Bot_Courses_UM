@@ -21,7 +21,8 @@ class Course(Resource):
 class Courses(Resource):
 
     def get(self):
-        return schema.dump(service.get_all()), 201
+        model = schema.dump(service.get_all(), many=True)
+        return model, 201
         
     def post(self):
         model = schema.load(request.get_json())
