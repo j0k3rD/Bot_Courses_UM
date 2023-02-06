@@ -5,8 +5,8 @@ from .user_schema import UserSchema
 
 class SearchSchema(Schema):
     id = fields.Int(dump_only=True)
-    keyword = fields.Str(required=True, validate=validate.Length(min=1))
-    date = fields.DateTime(required=True)
+    keywords = fields.Str(required=True, validate=validate.Length(min=1))
+    date = fields.DateTime(required=False)
     user_id = fields.Int(required=True)
     user = fields.Nested(UserSchema)
 

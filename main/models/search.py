@@ -1,11 +1,13 @@
 from .. import db
 from sqlalchemy.ext.hybrid import hybrid_property
+from datetime import datetime
+
 
 class Search(db.Model):
     __tablename__ = 'searchs'
     __id = db.Column('id', db.Integer, primary_key=True, nullable=False)
     __keywords = db.Column('keywords', db.String(100), nullable = False)
-    __date = db.Column('date', db.DateTime, nullable=False)
+    __date = db.Column('date', db.DateTime,default=datetime.now(), nullable=False)
     __user_id = db.Column('user_id', db.ForeignKey('users.id'), nullable=False)
 
     #Relacion con User

@@ -2,12 +2,11 @@ from flask_restful import Resource
 from flask import request
 from main.services import CourseService
 from main.map import CourseSchema
-from .controller import Single, Multiple
 
 schema = CourseSchema()
 service = CourseService()
 
-class Course(Single, Resource):
+class Course(Resource):
 
     def get(self, id):
         return schema.dump(service.get_by_id(id)), 201
@@ -19,7 +18,7 @@ class Course(Single, Resource):
         pass
 
 
-class Courses(Multiple, Resource):
+class Courses(Resource):
 
     def get(self):
         return schema.dump(service.get_all()), 201

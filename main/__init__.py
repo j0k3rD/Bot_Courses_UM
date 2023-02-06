@@ -1,10 +1,9 @@
 # Import librerias y frameworks
-import os, sys
+import os
 from flask import Flask
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
-import discord
 from multiprocessing import Process
 
 # Inicializo Api
@@ -29,16 +28,21 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////'+os.getenv('DATABASE_PATH')+os.getenv('DATABASE_NAME')
     db.init_app(app)
 
-    
+    # Registro los blueprints
     from main.resources import scrapblue, home 
     app.register_blueprint(home,url_prefix="/api/v1")
     app.register_blueprint(scrapblue,url_prefix="/api/v1")
 
+    # Importo los controladores
     import main.controllers as controllers
     from main.controllers.bot import Bot
 
     api.add_resource(controllers.UserController, '/api/v1/user/<int:id>')
     api.add_resource(controllers.UsersController, '/api/v1/users')
+    api.add_resource(controllers.CourseController, '/api/v1/course/<int:id>')
+    api.add_resource(controllers.CoursesController, '/api/v1/courses')
+    api.add_resource(controllers.SearchController, '/api/v1/search/<int:id>')
+    api.add_resource(controllers.SearchesController, '/api/v1/searches')
     api.init_app(app)
 
     bot = Bot()

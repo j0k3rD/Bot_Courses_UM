@@ -2,12 +2,11 @@ from flask_restful import Resource
 from flask import request
 from main.services import SearchService
 from main.map import SearchSchema
-from .controller import Single, Multiple
 
 schema = SearchSchema()
 service = SearchService()
 
-class Search(Single, Resource):
+class Search(Resource):
 
     def get(self, id):
         return schema.dump(service.get_by_id(id)), 201
@@ -19,7 +18,7 @@ class Search(Single, Resource):
         pass
 
 
-class Search(Multiple, Resource):
+class Searchs(Resource):
 
     def get(self):
         return schema.dump(service.get_all()), 201
