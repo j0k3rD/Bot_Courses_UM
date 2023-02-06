@@ -5,3 +5,4 @@ flask_sqlalchemy
 flask-marshmallow
 selenium
 webdriver-manager
+pip install requests == 2.25.1
