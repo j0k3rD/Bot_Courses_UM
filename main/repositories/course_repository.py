@@ -1,12 +1,12 @@
 from main.repositories.repository import Create, Delete, Read, Update
-from main.models import SearchModel
+from main.models import CourseModel
 from .. import db
 
 
-class SearchRepository(Create, Read, Update, Delete):
+class CourseRepository(Create, Read, Update, Delete):
     
     def __init__(self,):
-        self.__type_model = SearchModel
+        self.__type_model = CourseModel
 
     def create(self, model: db.Model):
         db.session.add(model)

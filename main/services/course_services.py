@@ -1,39 +1,15 @@
-from .. import db
-from main.models import SearchModel
-from main.map import CourseSchema
-from .command import Command, Task
-from flask import request
+from main.repositories import CourseRepository
+from main.services.services import Service
 
+repository = CourseRepository
 
-course_schema = CourseSchema()
+class CourseService(Service):
 
-
-class CourseService:
-
-    def add_course(self):
-        course = course_schema.load(request.get_json())
-        if self.register_course(course):
-            db.session.add(course)
-            db.session.commit()
-            print('Return course')
-            return course
-        return False  
-
+    def add_course(self, course):
+        return repository.create(course)
+        
     def get_courses(self):
-        course = db.session.query(SearchModel).all()
-        return course
+        return repository.find_all()
 
-    def register_course(self, course):
-        task = Task()
-        task.execute(course)
-
-    
-class SaveCourse(Command):
-
-    def execute(self, course):
-        try:
-            db.session.add(course)
-            db.session.commit()
-            return course.to_json(), 201
-        except:
-            return '', 404
+    def get_course(self, id):
+        return repository.find_by_id(id = id)

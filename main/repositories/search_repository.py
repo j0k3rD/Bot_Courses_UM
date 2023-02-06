@@ -22,13 +22,13 @@ class SearchRepository(Create, Read, Update, Delete):
          db.session.commit() 
          return model 
 
-    def delete(self, model: db.Model):
-         db.session.delete(model) 
-         db.session.commit() 
+    #def delete(self, model: db.Model):
+    #     db.session.delete(model) 
+    #     db.session.commit() 
 
-    def delete_by_id(self, id: int):
-        db.session.query(self.type_model).filter_by(id=id).delete() 
-        db.session.commit() 
+    #def delete_by_id(self, id: int):
+    #    db.session.query(self.type_model).filter_by(id=id).delete() 
+    #    db.session.commit() 
 
     def find_all(self):
         return db.session.query(db.Model).all()

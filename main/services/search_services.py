@@ -1,36 +1,15 @@
-from .. import db
-from main.models import SearchModel
-from main.map import SearchSchema
-from .command import Command, Task
-from flask import request
+from main.repositories import SearchRepository
+from main.services.services import Service
 
-search_schema = SearchSchema()
+repository = SearchRepository
 
-class SearchService:
+class SearchService(Service):
 
-    def add_search(self):
-        search = search_schema.load(request.get_json())
-        if self.register_search(search):
-            db.session.add(search)
-            db.session.commit()
-            return search
-        return False  
-
+    def add_search(self, course):
+        return repository.create(course)
+        
     def get_searches(self):
-        course = db.session.query(SearchModel).all()
-        return course
+        return repository.find_all()
 
-    def register_search(self, search):
-        task = Task()
-        task.execute(search)
-
-    
-class SaveSearch(Command):
-
-    def execute(self, course):
-        try:
-            db.session.add(course)
-            db.session.commit()
-            return course.to_json(), 201
-        except:
-            return '', 404
+    def get_search(self, id):
+        return repository.find_by_id(id = id)
