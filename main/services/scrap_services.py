@@ -6,7 +6,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from main.models import SearchModel
 from ..import db
 from flask import Blueprint, jsonify
-from ..repositories.course_repository import SearchRepository
+from ..repositories import SearchRepository
 from ..map.course_schema import SearchSchema
 
 course_repository = SearchRepository()
@@ -25,7 +25,8 @@ class ScrapServices:
         html = self.browser.search(keyword, url)
         course = self.parser(html)
         res = self.send_data(course)
-        return res
+        html.close()
+        return res, self
         
     def save_data(self, data:SearchModel):
         db.session.add(data)
@@ -37,7 +38,12 @@ class ScrapServices:
             return None
         else:
             return data
-        
+
+    #Cerrar el navegador
+    def close_browser(self):
+        self.browser.close()
+
+    
     def parser(self, html:WebDriver):
         title_course = html.find_elements("xpath","//h2[@class='no-margin-bottom normal-line-height f-text-22 ibm bold-600 f-top-12']")
         title_course = [   title.text    for title in title_course]

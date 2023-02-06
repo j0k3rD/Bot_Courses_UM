@@ -39,9 +39,10 @@ class Bot():
                 # Guardar los cursos en la base de datos
                 self.save_course(courses = x)
 
-                #Mostrar los primeros 3 cursos en diferentes campos
-                for i in range(3):
-                    embed.add_field(name=f"📕 - {x[i][0]}", value=f"{x[i][1]}", inline=False)
+                #Mostrar todos los cursos, pero si son menos de 18, mostrarlos todos
+                if len(x) < 21:
+                    for i in range(len(x)):
+                        embed.add_field(name=f"📕 - {x[i][0]}", value=f"{x[i][1]}", inline=False)
                 embed.set_author(name=ctx.message.author)
                 embed.set_thumbnail(url=BotConstants.THUMBNAIL)
                 embed.set_image(url=BotConstants.SET_IMAGE)
