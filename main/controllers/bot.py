@@ -3,6 +3,7 @@ import os, requests, discord, datetime
 from multiprocessing import Process
 import ast
 from main.constants.bot import BotConstants
+from main.map import CourseSchema, SearchSchema, UserSchema
 
 
 class Bot():
@@ -59,14 +60,14 @@ class Bot():
 
         # TODO: Comentar el código
         user_data = {
-            'discord_id': str(user_id),
-            'name': str(user_name)
+            "discord_id": user_id,
+            "name": str(user_name)
         }
 
-        r = requests.post(url = f"{api_url}users", data = user_data)
+        r = requests.post(url = f"{api_url}users", json = user_data)
 
     def save_search(self, keywords, user_id):
         print(f"El usuario con id {user_id}, escribio {keywords}")
 
     def save_course(self, courses):
-        print(f"Los cursos encontrados son: {courses}") 
+        print(f"Los cursos encontrados son: {courses}")
