@@ -1,51 +1,29 @@
 from flask_restful import Resource
 from flask import request
-# from main.services import CourseService
+from main.services import UserService
 from main.map import UserSchema
-from main.models import UserModel
+from main.models import UserService
 from .. import db
 
 user_schema = UserSchema()
-# service = CourseService
+service = UserService
 
 class User(Resource):
 
     def get(self, id):
-        user = db.session.query(UserModel).get_or_404(id)
-        return user_schema.dump(user), 201
-
-    # ! This method is not totally necessary.            
+        return user_schema.dump(service.get_course(id)), 201
+            
     def delete(self, id):
-        user = db.session.query(UserModel).get_or_404(id)
-        try:
-            db.session.delete(user)
-            db.session.commit()
-            return '', 204
-        except:
-            return '', 404
+        pass
 
-    # ! This method is not totally necessary.
     def put(self, id):
-        user = db.session.query(UserModel).get_or_404(id)
-        data = request.get_json().items()
-        for key, value in data:
-            setattr(user, key, value)
-        try:
-            db.session.add(user)
-            db.session.commit()
-            return user_schema.dump(user), 201
-        except:
-            return '', 404
+        pass
 
 
 class Users(Resource):
 
     def get(self):
-        users = db.session.query(UserModel).all()
-        return user_schema.dump(users, many=True)
+        pass
         
     def post(self):
-        user = user_schema.load(request.get_json())
-        db.session.add(user)
-        db.session.commit()
-        return user_schema.dump(user), 201
+        pass
