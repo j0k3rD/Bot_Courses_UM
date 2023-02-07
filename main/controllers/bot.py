@@ -3,7 +3,6 @@ import os, requests, discord, datetime
 from multiprocessing import Process
 import ast
 from main.constants.bot import BotConstants
-from main.map import CourseSchema, SearchSchema, UserSchema
 
 
 class Bot():
@@ -66,8 +65,31 @@ class Bot():
 
         r = requests.post(url = f"{api_url}users", json = user_data)
 
+
     def save_search(self, keywords, user_id):
+
         print(f"El usuario con id {user_id}, escribio {keywords}")
+        # api_url = os.getenv('API_URL')
+
+        # # TODO: Comentar el código
+        # search_data = {
+        #     "keywords": str(keywords),
+        #     "user_id": str(user_id)
+        # }
+
+        # r = requests.post(url = f"{api_url}searches", json = search_data)
+
 
     def save_course(self, courses):
+
         print(f"Los cursos encontrados son: {courses}")
+        # api_url = os.getenv('API_URL')
+
+        # # TODO: Comentar el código
+        # course_data = {
+        #     "url": str(courses[0][1]),
+        #     "title": str(courses[0][0]),
+        #     "search_id":"1"
+        # }
+
+        # r = requests.post(url = f"{api_url}courses", json = course_data)

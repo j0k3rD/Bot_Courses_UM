@@ -6,9 +6,9 @@ from .user_schema import UserSchema
 class SearchSchema(Schema):
     id = fields.Int(dump_only=True)
     keywords = fields.Str(required=True, validate=validate.Length(min=1))
-    date = fields.DateTime(required=False)
-    user_id = fields.Int(required=True)
-    user = fields.Nested(UserSchema)
+    date = fields.DateTime(dump_only=True)
+    user_id = fields.Int(required=True, validate=validate.Range(min=0))
+    user = fields.Nested(UserSchema, dump_only=True)
 
     @post_load
     def make_search(self, data, **kwargs):

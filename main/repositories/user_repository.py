@@ -12,9 +12,14 @@ class UserRepository(Create, Read, Update):
         return self.__type_model
     
     def create(self, model: db.Model):
-        db.session.add(model) 
-        db.session.commit() 
-        return model 
+        #Verificar si el usuario ya existe
+        user = db.session.query(self.type_model).filter_by(discord_id=model.discord_id).first()
+        if user is None:
+            db.session.add(model)
+            db.session.commit()
+            return model
+        else:
+            return user
 
     def update(self, model: db.Model) -> db.Model:
          db.session.merge(model)
