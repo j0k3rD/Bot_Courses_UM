@@ -8,14 +8,9 @@ class SearchRepository(Create, Read, Update):
         self.__type_model = SearchModel
     
     def create(self, model: db.Model):
-        #Verificar si la busqueda ya existe
-        search_exist = db.session.query(self.__type_model).filter_by(name=model.name).first()
-        if search_exist is None:
-            db.session.add(model)
-            db.session.commit()
-            return model
-        else:
-            return search_exist
+        db.session.add(model)
+        db.session.commit()
+        return model
 
     def update(self, model: db.Model) -> db.Model:
          db.session.merge(model)

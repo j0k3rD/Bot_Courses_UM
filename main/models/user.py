@@ -7,6 +7,9 @@ class User(db.Model):
     __discord_id = db.Column('discord_id', db.Integer, nullable=False)
     __name = db.Column('name', db.String(100), nullable=False)
 
+    #Relacion con Search
+    search = db.relationship('Search', back_populates='user')
+
     def __repr__(self):
         return f'< User:  {self.__id} {self.__discord_id} {self.__name}>'
 

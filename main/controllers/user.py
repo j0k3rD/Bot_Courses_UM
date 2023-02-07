@@ -14,9 +14,9 @@ class User(Resource):
     def get(self, id):
 
         @validate.validate_user(id)
-        def validate():
+        def validated():
             return schema.dump(service.get_by_id(id)), 201
-        return validate()
+        return validated()
             
     def delete(self, id):
         pass

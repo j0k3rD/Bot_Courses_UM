@@ -8,14 +8,9 @@ class CourseRepository(Create, Read, Update, Delete):
         self.__type_model = CourseModel
 
     def create(self, model: db.Model):
-        #Verificar si el curso ya existe
-        course_exist = db.session.query(self.__type_model).filter_by(name=model.name).first()
-        if course_exist is None:
-            db.session.add(model)
-            db.session.commit()
-            return model
-        else:
-            return course_exist
+        db.session.add(model)
+        db.session.commit()
+        return model
 
     def update(self, model: db.Model) -> db.Model:
         db.session.merge(model)

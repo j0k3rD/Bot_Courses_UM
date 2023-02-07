@@ -2,7 +2,7 @@ from main.services import CourseService
 
 service = CourseService()
 
-class ValidateCourse():
+class CourseValidate():
     
     def validate_course(self, id):
         def decorator(function):

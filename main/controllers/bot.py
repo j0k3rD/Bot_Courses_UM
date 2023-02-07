@@ -69,15 +69,15 @@ class Bot():
     def save_search(self, keywords, user_id):
 
         print(f"El usuario con id {user_id}, escribio {keywords}")
-        # api_url = os.getenv('API_URL')
+        api_url = os.getenv('API_URL')
 
         # # TODO: Comentar el código
-        # search_data = {
-        #     "keywords": str(keywords),
-        #     "user_id": str(user_id)
-        # }
-
-        # r = requests.post(url = f"{api_url}searches", json = search_data)
+        search_data = {
+            "keywords": str(keywords),
+            "user_id": str(user_id)
+        }
+        print(search_data)
+        r = requests.post(url = f"{api_url}searches", json = search_data)
 
 
     def save_course(self, courses):

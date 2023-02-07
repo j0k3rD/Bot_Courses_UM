@@ -2,7 +2,7 @@ from main.services import SearchService
 
 service = SearchService()
 
-class ValidateSearch():
+class SearchValidate():
     
     def validate_search(self, id):
         def decorator(function):

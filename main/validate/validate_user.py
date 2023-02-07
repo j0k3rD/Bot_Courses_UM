@@ -2,9 +2,9 @@ from main.services import UserService
 
 service = UserService()
 
-class ValidateUser():
+class UserValidate():
     
-    def validate_course(self, id):
+    def validate_user(self, id):
         def decorator(function):
             def wrapper(*args, **kwargs):
                 if service.get_by_id(id):
