@@ -30,5 +30,5 @@ class UserRepository(Create, Read, Update):
         return model
 
     def find_by_discord_id(self, discord_id: int) -> db.Model:
-        model = db.session.query(self.type_model).filter_by(discord_id=discord_id).first()
+        model = db.session.query(self.type_model).filter(self.type_model.discord_id == discord_id).first()
         return model
