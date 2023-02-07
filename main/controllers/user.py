@@ -2,12 +2,15 @@ from flask_restful import Resource
 from flask import request
 from main.services import UserService
 from main.map import UserSchema
+from main.validate import UserValidate
 
+validate = UserValidate()
 schema = UserSchema()
 service = UserService()
 
 class User(Resource):
 
+    @validate.validate_user(id)
     def get(self, id):
         return schema.dump(service.get_by_id(id)), 201
             

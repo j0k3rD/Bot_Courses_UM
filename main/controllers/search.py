@@ -2,12 +2,15 @@ from flask_restful import Resource
 from flask import request
 from main.services import SearchService
 from main.map import SearchSchema
+from main.validate import SearchValidate
 
+validate = SearchValidate()
 schema = SearchSchema()
 service = SearchService()
 
 class Search(Resource):
 
+    @validate.validate_search(id)
     def get(self, id):
         return schema.dump(service.get_by_id(id)), 201
             

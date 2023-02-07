@@ -2,12 +2,15 @@ from flask_restful import Resource
 from flask import request
 from main.services import CourseService
 from main.map import CourseSchema
+from main.validate import CourseValidate
 
+validate = CourseValidate()
 schema = CourseSchema()
 service = CourseService()
 
 class Course(Resource):
 
+    @validate.validate_course(id)
     def get(self, id):
         return schema.dump(service.get_by_id(id)), 201
             
