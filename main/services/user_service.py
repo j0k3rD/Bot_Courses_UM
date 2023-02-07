@@ -13,3 +13,6 @@ class UserService(Service):
 
     def get_by_id(self, id):
         return repository.find_by_id(id = id)
+
+    def get_by_discord_id(self, discord_id):
+        return repository.find_by_discord_id(discord_id = discord_id)

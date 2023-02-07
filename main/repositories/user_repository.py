@@ -28,3 +28,7 @@ class UserRepository(Create, Read, Update):
     def find_by_id(self, id: int) -> db.Model:
         model = db.session.query(self.type_model).filter_by(id=id).first() 
         return model
+
+    def find_by_discord_id(self, discord_id: int) -> db.Model:
+        model = db.session.query(self.type_model).filter_by(discord_id=discord_id).first()
+        return model
