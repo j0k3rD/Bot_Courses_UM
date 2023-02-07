@@ -32,5 +32,6 @@ class Users(Resource):
         return model, 201
 
     def post(self):
+        print(request.json)
         model = schema.load(request.json)
         return schema.dump(service.add(model)), 201
