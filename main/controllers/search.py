@@ -1,8 +1,8 @@
 from flask_restful import Resource
 from flask import request
-from main.services import SearchService
-from main.map import SearchSchema
-from main.validate import SearchValidate
+from main.services import SearchService, UserService
+from main.map import SearchSchema, UserSchema
+from main.validate import SearchValidate, UserValidate
 
 validate = SearchValidate()
 schema = SearchSchema()
@@ -27,9 +27,32 @@ class Search(Resource):
 class Searchs(Resource):
 
     def get(self):
+        
         model = schema.dump(service.get_all(), many=True)
         return model, 201
 
     def post(self):
-        model = schema.load(request.json) 
-        return schema.dump(service.add(model)), 201
+
+        user_validate = UserValidate()
+        user_service = UserService()
+        user_schema = UserSchema()
+
+        # Json values
+        user_json = request.json
+        keywords = user_json["keywords"]
+        discord_id = user_json["discord_id"]
+
+        @user_validate.get_user(discord_id = discord_id)
+        def validater():
+
+            user = user_schema.dump(user_service.get_by_discord_id(discord_id = discord_id))
+            data = {
+                "keywords": keywords,
+                "user_id": user["id"]
+            }
+            model = schema.load(data) 
+            return schema.dump(service.add(model)), 201
+
+        return validater()
+
+        

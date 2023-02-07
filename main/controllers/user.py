@@ -28,10 +28,20 @@ class User(Resource):
 class Users(Resource):
 
     def get(self):
+        
         model = schema.dump(service.get_all(), many=True)
         return model, 201
 
     def post(self):
-        print(request.json)
+
+        # Json values.
+        user_json = request.json
+        discord_id = user_json["discord_id"]
+        username = user_json["name"]
+
+        @validate.get_user(discord_id = discord_id)
+        def validater():
+            return f"User already exists in database {discord_id} - {username}", 201
+                        
         model = schema.load(request.json)
         return schema.dump(service.add(model)), 201

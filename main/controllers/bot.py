@@ -3,9 +3,6 @@ import os, requests, discord, datetime
 from multiprocessing import Process
 import ast
 from main.constants.bot import BotConstants
-from main.validate import UserValidate, SearchValidate, CourseValidate
-from main.map import CourseSchema, SearchSchema, UserSchema
-from main.services import CourseService, SearchService, UserService
 
 class Bot():
 
@@ -70,30 +67,15 @@ class Bot():
 
     def save_search(self, keywords, user_id):
 
-        print(f"El usuario con id {user_id}, escribio {keywords}")
         api_url = os.getenv('API_URL')
 
-        validate = UserValidate()
-        schema = UserSchema()
-        service = UserService()
-
-        @validate.get_user(discord_id = user_id)
-        def validater():
-
-            user = schema.dump(service.get_by_discord_id(user_id)), 201
-            print(user)
-            # # TODO: Comentar el código
-            search_data = {
-                "keywords": str(keywords),
-                "user_id": user["id"]
-            }
-            print(search_data)
-            r = requests.post(url = f"{api_url}searches", json = search_data)
-
-        return validater()
-
-        
-
+        # # TODO: Comentar el código
+        search_data = {
+            "keywords": str(keywords),
+            "discord_id": str(user_id)
+        }
+        print(search_data)
+        r = requests.post(url = f"{api_url}searches", json = search_data)
 
     def save_course(self, courses):
 

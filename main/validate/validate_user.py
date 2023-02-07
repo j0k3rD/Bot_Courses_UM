@@ -21,3 +21,5 @@ class UserValidate():
                 return f'User not found by discord_id, {discord_id}', 404
             return wrapper
         return decorator
+
+    
