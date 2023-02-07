@@ -31,5 +31,5 @@ class Searchs(Resource):
         return model, 201
 
     def post(self):
-        model = schema.load(request.get_json)
+        model = schema.load(request.json) 
         return schema.dump(service.add(model)), 201

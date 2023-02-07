@@ -7,13 +7,13 @@ class Search(db.Model):
     __tablename__ = 'searchs'
     __id = db.Column('id', db.Integer, primary_key=True, nullable=False)
     __keywords = db.Column('keywords', db.String(100), nullable = False)
-    __date = db.Column('date', db.DateTime,default=datetime.now(), nullable=False)
+    __date = db.Column('date',db.DateTime(),default=datetime.now(), nullable=False)
     __user_id = db.Column('user_id', db.ForeignKey('users.id'), nullable=False)
 
     #Relacion con User
     user = db.relationship('User', back_populates='search')
     #Relacion con Course
-    courses = db.relationship('Course', back_populates='search')
+    # course = db.relationship('Course', back_populates='search')
 
     def __repr__(self):
         return f'< User:  {self.__id} {self.__keywords} {self.__date}, {self.__user_id}>'
@@ -35,7 +35,7 @@ class Search(db.Model):
         return self.__keywords
 
     @keywords.setter
-    def discord_id(self, keywords):
+    def keywords(self, keywords):
         self.__keywords = keywords
 
     @keywords.deleter
