@@ -10,9 +10,13 @@ service = UserService()
 
 class User(Resource):
 
-    @validate.validate_user(id)
+    
     def get(self, id):
-        return schema.dump(service.get_by_id(id)), 201
+
+        @validate.validate_user(id)
+        def validate():
+            return schema.dump(service.get_by_id(id)), 201
+        return validate()
             
     def delete(self, id):
         pass

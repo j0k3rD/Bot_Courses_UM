@@ -10,9 +10,12 @@ service = CourseService()
 
 class Course(Resource):
 
-    @validate.validate_course(id)
     def get(self, id):
-        return schema.dump(service.get_by_id(id)), 201
+        
+        @validate.validate_course(id)
+        def validate():
+            return schema.dump(service.get_by_id(id)), 201
+        return validate()
             
     def delete(self, id):
         pass

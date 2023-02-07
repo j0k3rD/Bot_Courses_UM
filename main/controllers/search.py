@@ -10,9 +10,12 @@ service = SearchService()
 
 class Search(Resource):
 
-    @validate.validate_search(id)
     def get(self, id):
-        return schema.dump(service.get_by_id(id)), 201
+        
+        @validate.validate_search(id)
+        def validate():
+            return schema.dump(service.get_by_id(id)), 201
+        return validate()
             
     def delete(self, id):
         pass
