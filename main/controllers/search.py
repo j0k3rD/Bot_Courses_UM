@@ -13,9 +13,9 @@ class Search(Resource):
     def get(self, id):
         
         @validate.validate_search(id)
-        def validate():
+        def validater():
             return schema.dump(service.get_by_id(id)), 201
-        return validate()
+        return validater()
             
     def delete(self, id):
         pass
