@@ -67,10 +67,10 @@ class Course(db.Model):
     def search_id(self):
         return self.__search_id
     
-    @count.setter
+    @search_id.setter
     def search_id(self,search_id):
         self.__search_id = search_id
     
-    @count.deleter
+    @search_id.deleter
     def search_id(self):
         del self.__search_id

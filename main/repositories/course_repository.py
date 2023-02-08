@@ -16,7 +16,7 @@ class CourseRepository(Create, Read, Update):
         db.session.merge(model)
         db.session.commit()
         return model 
-
+    
     # def delete(self, model: db.Model):
     #     db.session.delete(model)
     #     db.session.commit()

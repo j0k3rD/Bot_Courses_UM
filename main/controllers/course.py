@@ -40,6 +40,7 @@ class Courses(Resource):
         user_model = User_service.get_by_discord_id(discord_id = discord_id)
 
         search_model = Search_service.get_by_user_id(user_id = user_model.id)
+        search_id = search_model.id
 
         for i in range(len(courses_urls)):
             
@@ -53,7 +54,7 @@ class Courses(Resource):
                 "url": courses_urls[i][1],
                 "title": courses_urls[i][0],
                 "count": 1,
-                "search_id": search_model.id,
+                "search_id": search_id,
             }
             print(data)
             model = schema.load(data)
