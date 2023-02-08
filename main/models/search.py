@@ -11,7 +11,7 @@ class Search(db.Model):
     __user_id = db.Column('user_id', db.ForeignKey('users.id'), nullable=False)
 
     #Relacion con User
-    user = db.relationship('User', back_populates='search')
+    #user = db.relationship('User', back_populates='search')
     #Relacion con Course
     course = db.relationship('Course', back_populates='search')
 
