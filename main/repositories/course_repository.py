@@ -26,7 +26,7 @@ class CourseRepository(Create, Read, Update, Delete):
         db.session.commit() 
 
     def find_all(self):
-        model = db.session.query(db.Model).all()
+        model = db.session.query(self.__type_model).all()
         return model
 
     def find_by_id(self, id: int) -> db.Model:
