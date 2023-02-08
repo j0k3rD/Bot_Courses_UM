@@ -13,3 +13,6 @@ class SearchService(Service):
 
     def get_by_id(self, id):
         return repository.find_by_id(id = id)
+
+    def get_by_user_id(self, user_id):
+        return repository.find_by_user_id(user_id = user_id)

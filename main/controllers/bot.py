@@ -37,7 +37,7 @@ class Bot():
                 self.save_search(keywords = keyword, user_id = ctx.message.author.id)
 
                 # Guardar los cursos en la base de datos
-                self.save_course(courses = x)
+                self.save_course(courses = x, user_id = user_id)
 
                 #Mostrar todos los cursos, pero si son menos de 18, mostrarlos todos
                 if len(x) < 21:
@@ -77,13 +77,14 @@ class Bot():
 
         requests.post(url = f"{api_url}searches", json = search_data)
 
-    def save_course(self, courses):
+    def save_course(self, courses, user_id):
 
         api_url = os.getenv('API_URL')
 
         # TODO: Comentar el código
         course_data = {
             "courses": courses,
+            "discord_id": str(user_id)
         }
 
         requests.post(url = f"{api_url}courses", json = course_data)

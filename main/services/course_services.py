@@ -16,3 +16,6 @@ class CourseService(Service):
 
     def get_by_course_id(self, course_url):
         return repository.find_course_by_url(course_url = course_url)
+
+    def add_count(self, id):
+        return repository.add_count(id = id)

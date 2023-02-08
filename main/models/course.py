@@ -6,7 +6,7 @@ class Course(db.Model):
     __id = db.Column('id', db.Integer, primary_key=True, nullable=False)
     __url = db.Column('url', db.String(100), nullable = False)
     __title = db.Column('title', db.String(100), nullable = False)
-    __count = db.Column('count', db.Integer, nullable = False)
+    __count = db.Column('count', db.Integer, default=1, nullable = False)
     __search_id = db.Column('search_id', db.ForeignKey('searchs.id'), nullable=False)
 
     #Relacion con Search

@@ -24,3 +24,7 @@ class SearchRepository(Create, Read, Update):
     def find_by_id(self, id: int) -> db.Model:
         model = db.session.query(self.__type_model).filter_by(id=id).first() 
         return model
+
+    def find_by_user_id(self, user_id: int) -> db.Model:
+        model = db.session.query(self.__type_model).filter(self.__type_model.user_id == user_id).last()
+        return model
