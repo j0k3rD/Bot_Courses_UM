@@ -48,16 +48,16 @@ class Courses(Resource):
 
             if course:
                 service.add_count(id = course.id)
-                return schema.dump(course), 201
-
+                continue
+            
             data = {
                 "url": courses_urls[i][1],
                 "title": courses_urls[i][0],
-                "count": 1,
-                "search_id": search_id,
+                "search_id": search_id
             }
+
             model = schema.load(data)
             model = service.add(model)
-
+            
             if (i == len(courses_urls) - 1):
                 return schema.dump(model), 201
