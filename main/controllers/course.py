@@ -56,7 +56,8 @@ class Courses(Resource):
                 "count": 1,
                 "search_id": search_id,
             }
-            print(data)
             model = schema.load(data)
-            print(model)
-            return schema.dump(service.add(model)), 201
+            model = service.add(model)
+
+            if (i == len(courses_urls) - 1):
+                return schema.dump(model), 201
