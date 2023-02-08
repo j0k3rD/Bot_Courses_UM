@@ -11,9 +11,9 @@ class Search(db.Model):
     __user_id = db.Column('user_id', db.ForeignKey('users.id'), nullable=False)
 
     #Relacion con User
-    user = db.relationship('User', back_populates='searches')
+    user = db.relationship('User', back_populates='search')
     #Relacion con Course
-    courses = db.relationship('Course', back_populates='search', cascade="all, delete-orphan")
+    course = db.relationship('Course', back_populates='search')
 
     def __repr__(self):
         return f'< User:  {self.__id} {self.__keywords} {self.__date}, {self.__user_id}>'

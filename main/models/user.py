@@ -8,7 +8,7 @@ class User(db.Model):
     __name = db.Column('name', db.String(100), nullable=False)
 
     #Relacion con Search
-    searches = db.relationship('Search', back_populates='user', cascade="all, delete-orphan")
+    search = db.relationship('Search', back_populates='user', cascade="all, delete-orphan")
 
     def __repr__(self):
         return f'< User:  {self.__id} {self.__discord_id} {self.__name}>'

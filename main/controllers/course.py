@@ -48,13 +48,14 @@ class Courses(Resource):
             if course:
                 service.add_count(id = course.id)
                 return schema.dump(course), 201
-            print(search_model.id)
 
             data = {
                 "url": courses_urls[i][1],
                 "title": courses_urls[i][0],
                 "count": 1,
-                "search_id": search_model.id
+                "search_id": search_model.id,
             }
+            print(data)
             model = schema.load(data)
+            print(model)
             return schema.dump(service.add(model)), 201
