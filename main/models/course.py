@@ -32,7 +32,7 @@ class Course(db.Model):
         return self.__url
 
     @url.setter
-    def discord_id(self, url):
+    def url(self, url):
         self.__url = url
 
     @url.deleter
