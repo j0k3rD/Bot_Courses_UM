@@ -8,6 +8,7 @@ validate = SearchValidate()
 schema = SearchSchema()
 service = SearchService()
 
+
 class Search(Resource):
 
     def get(self, id):
@@ -54,5 +55,3 @@ class Searchs(Resource):
             return schema.dump(service.add(model)), 201
 
         return validater()
-
-        

@@ -8,9 +8,10 @@ validate = UserValidate()
 schema = UserSchema()
 service = UserService()
 
+
 class User(Resource):
 
-    
+
     def get(self, id):
 
         @validate.validate_user(id)
@@ -39,9 +40,14 @@ class Users(Resource):
         discord_id = user_json["discord_id"]
         username = user_json["name"]
 
-        @validate.get_user(discord_id = discord_id)
-        def validater():
-            return f"User already exists in database {discord_id} - {username}", 201
-                        
-        model = schema.load(request.json)
+        # Validate if user already exists.
+        if service.get_by_discord_id(discord_id):
+            return f'User already exists by discord_id, {discord_id}', 404
+    
+        # Create user.
+        data = {
+            "discord_id": discord_id,
+            "name": username
+        }
+        model = schema.load(data)
         return schema.dump(service.add(model)), 201

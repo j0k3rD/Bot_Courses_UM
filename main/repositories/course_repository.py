@@ -34,7 +34,7 @@ class CourseRepository(Create, Read, Update, Delete):
         return model
 
     def find_course_by_url(self, course_url: str) -> db.Model:
-        model = db.session.query(self.type_model).filter(self.__type_model.url == course_url).first()
+        model = db.session.query(self.__type_model).filter(self.__type_model.url == course_url).first()
         return model
 
     def add_count(self, id: int) -> db.Model:
