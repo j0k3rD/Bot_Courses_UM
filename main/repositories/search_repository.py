@@ -18,7 +18,9 @@ class SearchRepository(Create, Read, Update):
          return model  
 
     def find_all(self):
-        return db.session.query(self.__type_model).all()
+        model = db.session.query(self.__type_model).all()
+        return model
 
     def find_by_id(self, id: int) -> db.Model:
-        return db.session.query(self.__type_model).filter_by(id=id).first() 
+        model = db.session.query(self.__type_model).filter_by(id=id).first() 
+        return model

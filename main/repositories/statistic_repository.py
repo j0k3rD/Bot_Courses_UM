@@ -22,7 +22,9 @@ class StatisticRepository(Create, Read):
          return model
 
     def find_all(self):
-        return db.session.query(db.Model).all()
+        model = db.session.query(db.Model).all()
+        return model
 
     def find_by_id(self):
-        return db.session.query(self.type_model).filter_by(id=id).first()
+        model = db.session.query(self.type_model).filter_by(id=id).first()
+        return model

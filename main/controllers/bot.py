@@ -62,7 +62,7 @@ class Bot():
             "name": str(user_name)
         }
 
-        r = requests.post(url = f"{api_url}users", json = user_data)
+        requests.post(url = f"{api_url}users", json = user_data)
 
 
     def save_search(self, keywords, user_id):
@@ -74,19 +74,16 @@ class Bot():
             "keywords": str(keywords),
             "discord_id": str(user_id)
         }
-        print(search_data)
-        r = requests.post(url = f"{api_url}searches", json = search_data)
+
+        requests.post(url = f"{api_url}searches", json = search_data)
 
     def save_course(self, courses):
 
-        print(f"Los cursos encontrados son: {courses}")
-        # api_url = os.getenv('API_URL')
+        api_url = os.getenv('API_URL')
 
-        # # TODO: Comentar el código
-        # course_data = {
-        #     "url": str(courses[0][1]),
-        #     "title": str(courses[0][0]),
-        #     "search_id":"1"
-        # }
+        # TODO: Comentar el código
+        course_data = {
+            "courses": courses,
+        }
 
-        # r = requests.post(url = f"{api_url}courses", json = course_data)
+        requests.post(url = f"{api_url}courses", json = course_data)

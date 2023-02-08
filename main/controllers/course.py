@@ -31,5 +31,12 @@ class Courses(Resource):
         return model, 201
         
     def post(self):
-        model = schema.load(request.get_json())
-        return schema.dump(service.add(model)), 201
+
+        courses_urls = request.json["courses"]
+
+        for course in range(len(courses_urls)):
+            @validate.validate_course_by_url(course_url = course[i][0])
+            def validater():
+                model = schema.load(request.get_json())
+                return schema.dump(service.add(model)), 201
+            return validater()

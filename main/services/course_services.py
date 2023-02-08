@@ -13,3 +13,6 @@ class CourseService(Service):
 
     def get_by_id(self, id):
         return repository.find_by_id(id = id)
+
+    def get_by_course_id(self, course_url):
+        return repository.find_course_by_url(course_url = course_url)
