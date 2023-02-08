@@ -32,8 +32,21 @@ class Courses(Resource):
         
     def post(self):
 
-        courses_urls = request.json["courses"]
-        discord_id = request.json["discord_id"]
+        if not request.json:
+            return "No json data", 400
+
+        elif request.json["top_courses"]:
+            return self.post_top_courses(limit = request.json["top_courses"])
+
+        elif request.json["courses"] and request.json["discord_id"]:
+            return self.post_course(courses_urls = request.json["courses"], discord_id = request.json["discord_id"])
+
+        else:
+            return "Incorrect json data", 400
+            
+
+    def post_course(self, courses_urls, discord_id):
+
         Search_service = SearchService()
         User_service = UserService()
 
@@ -43,11 +56,12 @@ class Courses(Resource):
         search_id = search_model.id
 
         for i in range(len(courses_urls)):
-            
             course = service.get_by_course_url(course_url = courses_urls[i][1])
 
             if course:
                 service.add_count(id = course.id)
+                if (i == len(courses_urls) - 1):
+                    return "All course models saved", 201
                 continue
             
             data = {
@@ -60,4 +74,7 @@ class Courses(Resource):
             model = service.add(model)
             
             if (i == len(courses_urls) - 1):
-                return schema.dump(model), 201
+                return "All course models saved", 201
+
+    def post_top_courses(self, limit):
+        service.get_top_courses(limit)

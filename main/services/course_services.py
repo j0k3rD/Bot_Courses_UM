@@ -19,3 +19,6 @@ class CourseService(Service):
 
     def add_count(self, id):
         return repository.add_count(id = id)
+
+    def get_top_courses(self, limit):
+        return repository.find_top_courses(limit = limit)

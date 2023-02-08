@@ -29,7 +29,6 @@ class User(Resource):
 class Users(Resource):
 
     def get(self):
-        
         model = schema.dump(service.get_all(), many=True)
         return model, 201
 
