@@ -16,18 +16,13 @@ class Bot():
         async def search(ctx, keyword: str):
             api_url = os.getenv('API_URL')
             response = requests.get(f'{api_url}search/firefox/{keyword}')
+            
             if response.status_code == 404:
-                embed = discord.Embed(title = f"{BotConstants.BOT_NOT_FIND_COURSE_0} *{keyword}*. {BotConstants.BOT_NOT_FIND_COURSE_1}", description = BotConstants.BOT_MORE_COURSE, color=discord.Color.red())
-                embed.set_author(name=ctx.message.author)
-                embed.set_footer(text=BotConstants.SET_FOOTER)
-                embed.timestamp = datetime.datetime.now()
-                await ctx.send(embed=embed)
+                embed = self.text_embed_not_found(response, keyword)
             else:
-                embed = discord.Embed(title = f"{BotConstants.BOT_FIND_COURSE_0} *{keyword}* {BotConstants.BOT_FIND_COURSE_1}", description = BotConstants.BOT_MORE_COURSE, color=discord.Color.yellow())
-                
+                embed = self.text_embed_found(keyword)
                 #Convertir el string en una lista
                 x = ast.literal_eval(response.json()['message'])
-
                 # Guardar información del usuario
                 user_id = ctx.message.author.id
                 user_name = ctx.message.author
@@ -39,16 +34,26 @@ class Bot():
                 # Guardar los cursos en la base de datos
                 self.save_course(courses = x, user_id = user_id)
 
-                #Mostrar todos los cursos, pero si son menos de 18, mostrarlos todos
-                if len(x) < 21:
-                    for i in range(len(x)):
-                        embed.add_field(name=f"📕 - {x[i][0]}", value=f"{x[i][1]}", inline=False)
-                embed.set_author(name=ctx.message.author)
-                embed.set_thumbnail(url=BotConstants.THUMBNAIL)
-                embed.set_image(url=BotConstants.SET_IMAGE)
-                embed.timestamp = datetime.datetime.now()
-                embed.set_footer(text=BotConstants.SET_FOOTER)
-                await ctx.send(embed=embed)
+                self.text_embed_found_setter(ctx, embed, x)
+            
+            await ctx.send(embed = embed)
+
+
+        @bot.command(name='top')
+        async def top(ctx, course: int):
+            if course < 21:
+                api_url = os.getenv('API_URL')
+                response = requests.post(url=f'{api_url}courses', json={"top_courses": course})
+                if response.status_code == 404:
+                    embed = self.text_embed_not_found(response, course)
+                else:
+                    embed = self.text_embed_found(course)
+                    #Convertir el string en una lista
+                    x = ast.literal_eval(response.json()['message'])
+                    embed = self.text_embed_found_setter(embed, course)
+                await ctx.send(embed = embed)
+            else:
+                await ctx.send(BotConstants.BOT['TOP_COURSES_ERROR'])
 
         return Process(target=bot.run, args=(os.getenv('DISCORD_TOKEN'),))
 
@@ -88,3 +93,25 @@ class Bot():
         }
 
         requests.post(url = f"{api_url}courses", json = course_data)
+
+    def text_embed_not_found(self, ctx, user_input):
+        embed = discord.Embed(title = f"{BotConstants.BOT_NOT_FIND_COURSE_0} *{user_input}* {BotConstants.BOT_NOT_FIND_COURSE_1}", description = BotConstants.BOT_MORE_COURSE, color = discord.Color.red())
+        embed.set_author(name=ctx.message.author)
+        embed.set_footer(text=BotConstants.SET_FOOTER)
+        embed.timestamp = datetime.datetime.now()
+        return embed
+
+    def text_embed_found(self, user_input):
+        embed = discord.Embed(title = f"{BotConstants.BOT_FIND_COURSE_0} *{user_input}* {BotConstants.BOT_FIND_COURSE_1}", description = BotConstants.BOT_MORE_COURSE, color = discord.Color.green())
+        return embed
+
+    def text_embed_found_setter(self, ctx, embed, x):
+        if len(x) < 21:
+            for i in range(len(x)):
+                embed.add_field(name=f"📕 - {x[i][0]}", value=f"{x[i][1]}", inline=False)
+            embed.set_author(name=ctx.message.author)
+            embed.set_thumbnail(url=BotConstants.THUMBNAIL)
+            embed.set_image(url=BotConstants.SET_IMAGE)
+            embed.timestamp = datetime.datetime.now()
+            embed.set_footer(text=BotConstants.SET_FOOTER)
+            return embed

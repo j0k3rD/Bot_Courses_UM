@@ -32,13 +32,15 @@ class Courses(Resource):
         
     def post(self):
 
-        if not request.json:
+        json = request.json
+
+        if not json:
             return "No json data", 400
 
-        elif request.json["top_courses"]:
+        elif "top_courses" in json:
             return self.post_top_courses(limit = request.json["top_courses"])
 
-        elif request.json["courses"] and request.json["discord_id"]:
+        elif "courses" and "discord_id" in json:
             return self.post_course(courses_urls = request.json["courses"], discord_id = request.json["discord_id"])
 
         else:
