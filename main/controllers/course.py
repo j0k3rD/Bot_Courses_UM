@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from flask import request
-from main.services import CourseService, SearchService
+from main.services import CourseService, SearchService, UserService
 from main.map import CourseSchema
 from main.validate import CourseValidate
 
@@ -35,20 +35,25 @@ class Courses(Resource):
         courses_urls = request.json["courses"]
         discord_id = request.json["discord_id"]
         Search_service = SearchService()
+        User_service = UserService()
 
-        search_model = Search_service.get_by_user_id(user_id = discord_id)
+        user_model = User_service.get_by_discord_id(discord_id = discord_id)
+
+        search_model = Search_service.get_by_user_id(user_id = user_model.id)
 
         for i in range(len(courses_urls)):
             
-            course = service.get_by_course_id(course_url = courses_urls[i][1])
+            course = service.get_by_course_url(course_url = courses_urls[i][1])
 
             if course:
                 service.add_count(id = course.id)
                 return schema.dump(course), 201
+            print(search_model.id)
 
             data = {
                 "url": courses_urls[i][1],
                 "title": courses_urls[i][0],
+                "count": 1,
                 "search_id": search_model.id
             }
             model = schema.load(data)

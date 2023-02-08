@@ -6,14 +6,14 @@ class Course(db.Model):
     __id = db.Column('id', db.Integer, primary_key=True, nullable=False)
     __url = db.Column('url', db.String(100), nullable = False)
     __title = db.Column('title', db.String(100), nullable = False)
-    __count = db.Column('count', db.Integer, default=1, nullable = False)
+    __count = db.Column('count', db.Integer, nullable = False)
     __search_id = db.Column('search_id', db.ForeignKey('searchs.id'), nullable=False)
 
     #Relacion con Search
     search = db.relationship('Search', back_populates='courses')
 
     def __repr__(self):
-        return f'< Course: {self.__id} {self.__url} {self.__title}, {self.__count}>'
+        return f'< Course: {self.__id} {self.__url} {self.__title}, {self.__count}, {self.search_id}>'
 
     @hybrid_property
     def id(self):
@@ -68,9 +68,9 @@ class Course(db.Model):
         return self.__search_id
     
     @count.setter
-    def search_id(self,count):
-        self.__search_id = count
+    def search_id(self,search_id):
+        self.__search_id = search_id
     
     @count.deleter
     def search_id(self):
-        del self.__count
+        del self.__search_id
