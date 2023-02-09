@@ -79,4 +79,28 @@ class Courses(Resource):
                 return "All course models saved", 201
 
     def post_top_courses(self, limit):
-        service.get_top_courses(limit)
+        schema_top_course = schema.dump(service.get_top_courses(limit), many=True)
+        # print(schema_top_course)
+        course_list = []
+        title_list = []
+        # for title in schema_top_course:
+        #     title_list.append(title['title'])
+
+        url_list = []
+        # for url in schema_top_course:
+        #     url_list.append(url['url'])
+
+        # for i in range(limit):
+        #     course_list.append((title_list[i], url_list[i]))
+        #     print(course_list)
+        # return course_list
+        for item in schema_top_course:
+            for title in item('title'):
+                title_list.append(title)
+            for url in item('url'):
+                url_list.append(url)
+        for i in range(limit):
+            course_list.append((title_list[i], url_list[i]))
+        print(course_list)
+        return course_list
+
