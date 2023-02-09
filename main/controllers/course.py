@@ -95,9 +95,9 @@ class Courses(Resource):
         #     print(course_list)
         # return course_list
         for item in schema_top_course:
-            for title in item('title'):
+            for title in item['title']:
                 title_list.append(title)
-            for url in item('url'):
+            for url in item['url']:
                 url_list.append(url)
         for i in range(limit):
             course_list.append((title_list[i], url_list[i]))
