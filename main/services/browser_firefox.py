@@ -13,7 +13,7 @@ class FirefoxBrowser(Browser):
     def _Browser__get_options(self):
         options = webdriver.FirefoxOptions()
         #-----------------------#
-        # Run in headless mode  #
+        #-Run in headless mode--#
         options.headless = True
         #-----------------------#
         options.set_preference("browser.cache.disk.enable", False)
