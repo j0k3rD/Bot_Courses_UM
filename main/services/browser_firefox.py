@@ -12,7 +12,10 @@ class FirefoxBrowser(Browser):
 
     def _Browser__get_options(self):
         options = webdriver.FirefoxOptions()
-        #options.headless = True
+        #-----------------------#
+        # Run in headless mode  #
+        options.headless = True
+        #-----------------------#
         options.set_preference("browser.cache.disk.enable", False)
         options.set_preference("browser.cache.memory.enable", False)
         options.set_preference("browser.cache.offline.enable", False)
