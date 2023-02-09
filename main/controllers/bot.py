@@ -40,20 +40,18 @@ class Bot():
 
 
         @bot.command(name='top')
-        async def top(ctx, course: int):
-            if course < 21:
-                api_url = os.getenv('API_URL')
-                response = requests.post(url=f'{api_url}courses', json={"top_courses": course})
-                if response.status_code == 404:
-                    embed = self.text_embed_not_found(response, course)
-                else:
-                    embed = self.text_embed_found(course)
-                    #Convertir el string en una lista
-                    x = ast.literal_eval(response.json()['message'])
-                    embed = self.text_embed_found_setter(embed, course)
-                await ctx.send(embed = embed)
+        async def top(ctx):
+            api_url = os.getenv('API_URL')
+            response = requests.get(url=f'{api_url}top/')
+            if response.status_code == 404:
+                embed = self.text_embed_not_found_top()
             else:
-                await ctx.send(BotConstants.BOT['TOP_COURSES_ERROR'])
+                embed = self.text_embed_found_top()
+                #Convertir el string en una lista
+                x = ast.literal_eval(response.json()['message'])
+                self.text_embed_found_setter(ctx, embed, x)
+            
+            await ctx.send(embed = embed)
 
         return Process(target=bot.run, args=(os.getenv('DISCORD_TOKEN'),))
 
@@ -94,6 +92,7 @@ class Bot():
 
         requests.post(url = f"{api_url}courses", json = course_data)
 
+
     def text_embed_not_found(self, ctx, user_input):
         embed = discord.Embed(title = f"{BotConstants.BOT_NOT_FIND_COURSE_0} *{user_input}* {BotConstants.BOT_NOT_FIND_COURSE_1}", description = BotConstants.BOT_MORE_COURSE, color = discord.Color.red())
         embed.set_author(name=ctx.message.author)
@@ -101,8 +100,16 @@ class Bot():
         embed.timestamp = datetime.datetime.now()
         return embed
 
+    def text_embed_not_found_top(self):
+        embed = discord.Embed(title = f"{BotConstants.BOT_TOP_NOT_COURSE}", description = BotConstants.BOT_MORE_COURSE, color = discord.Color.red())
+        return embed
+
     def text_embed_found(self, user_input):
         embed = discord.Embed(title = f"{BotConstants.BOT_FIND_COURSE_0} *{user_input}* {BotConstants.BOT_FIND_COURSE_1}", description = BotConstants.BOT_MORE_COURSE, color = discord.Color.green())
+        return embed
+
+    def text_embed_found_top(self):
+        embed = discord.Embed(title = f"{BotConstants.BOT_TOP_COURSE}", description = BotConstants.BOT_MORE_COURSE, color = discord.Color.green())
         return embed
 
     def text_embed_found_setter(self, ctx, embed, x):

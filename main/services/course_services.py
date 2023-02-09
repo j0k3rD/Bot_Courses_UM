@@ -1,7 +1,11 @@
 from main.repositories import CourseRepository
 from main.services.services import Service
+from main.map import CourseSchema
+
 
 repository = CourseRepository()
+schema = CourseSchema()
+
 
 class CourseService(Service):
 
@@ -20,5 +24,18 @@ class CourseService(Service):
     def add_count(self, id):
         return repository.add_count(id = id)
 
-    def get_top_courses(self, limit):
-        return repository.find_top_courses(limit = limit)
+    def get_top_courses(self):
+        schema_top_course = schema.dump(repository.find_top_courses(), many=True)
+        course_list = []
+        title_list = []
+        for title in schema_top_course:
+            title_list.append(title['title'])
+
+        url_list = []
+        for url in schema_top_course:
+            url_list.append(url['url'])
+
+        for i in range(10):
+            course_list.append((title_list[i], url_list[i]))
+        print(course_list)
+        return course_list

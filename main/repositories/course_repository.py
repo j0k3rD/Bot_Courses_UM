@@ -43,6 +43,6 @@ class CourseRepository(Create, Read, Update):
         db.session.commit()
         return model
 
-    def find_top_courses(self, limit: int) -> db.Model:
-        model = db.session.query(self.__type_model).order_by(self.__type_model.count.desc()).limit(limit).all()
+    def find_top_courses(self) -> db.Model:
+        model = db.session.query(self.__type_model).order_by(self.__type_model.count.desc()).all()
         return model

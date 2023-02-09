@@ -29,9 +29,10 @@ def create_app():
     db.init_app(app)
 
     # Registro los blueprints
-    from main.resources import scrapblue, home 
+    from main.resources import scrapblue, home, topblue 
     app.register_blueprint(home,url_prefix="/api/v1")
     app.register_blueprint(scrapblue,url_prefix="/api/v1")
+    app.register_blueprint(topblue,url_prefix="/api/v1")
 
     # Importo los controladores
     import main.controllers as controllers

@@ -17,9 +17,6 @@ class ScrapServices:
 
     def __init__(self, browser:Browser):
         self.browser = browser
-        # self.title_list = []
-        # self.url_list = []
-        # self.course_list = []
 
     def search(self, keyword:str, url:str):
         html = self.browser.search(keyword, url)
@@ -27,10 +24,6 @@ class ScrapServices:
         res = self.send_data(course)
         html.close()
         return res
-        
-    def save_data(self, data:SearchModel):
-        db.session.add(data)
-        db.session.commit()
 
     #Mostrar al usuario los datos scrapeados
     def send_data(self, data):

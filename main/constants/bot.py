@@ -17,7 +17,7 @@ class BotConstants:
     SET_FOOTER = "Cursos de Codigo Facilito"
 
     # TOP
-    BOT_TOP_COURSE = "Los Cursos mas buscados por Bot Cursos UM son:"
+    BOT_TOP_COURSE = "El Top 10 del Los Cursos mas buscados por Bot Cursos UM es:"
     BOT_TOP_NOT_COURSE = "Todavia no existen cursos buscados para realizar el TOP"
 
     # ERROR TOP

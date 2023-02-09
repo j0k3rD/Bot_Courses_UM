@@ -27,18 +27,14 @@ class Course(Resource):
 class Courses(Resource):
 
     def get(self):
-        model = schema.dump(service.get_all(), many=True)
-        return model, 201
-        
+        return schema.dump(service.get_all(), many=True), 201
+                
     def post(self):
 
         json = request.json
 
         if not json:
             return "No json data", 400
-
-        elif "top_courses" in json:
-            return self.post_top_courses(limit = request.json["top_courses"])
 
         elif "courses" and "discord_id" in json:
             return self.post_course(courses_urls = request.json["courses"], discord_id = request.json["discord_id"])
@@ -77,30 +73,3 @@ class Courses(Resource):
             
             if (i == len(courses_urls) - 1):
                 return "All course models saved", 201
-
-    def post_top_courses(self, limit):
-        schema_top_course = schema.dump(service.get_top_courses(limit), many=True)
-        # print(schema_top_course)
-        course_list = []
-        title_list = []
-        # for title in schema_top_course:
-        #     title_list.append(title['title'])
-
-        url_list = []
-        # for url in schema_top_course:
-        #     url_list.append(url['url'])
-
-        # for i in range(limit):
-        #     course_list.append((title_list[i], url_list[i]))
-        #     print(course_list)
-        # return course_list
-        for item in schema_top_course:
-            for title in item['title']:
-                title_list.append(title)
-            for url in item['url']:
-                url_list.append(url)
-        for i in range(limit):
-            course_list.append((title_list[i], url_list[i]))
-        print(course_list)
-        return course_list
-
