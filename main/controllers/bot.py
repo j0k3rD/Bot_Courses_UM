@@ -109,7 +109,7 @@ class Bot():
         return embed
 
     def text_embed_found_top(self):
-        embed = discord.Embed(title = f"{BotConstants.BOT_TOP_COURSE}", description = BotConstants.BOT_MORE_COURSE, color = discord.Color.green())
+        embed = discord.Embed(title = f"{BotConstants.BOT_TOP_COURSE}", description = BotConstants.BOT_MORE_COURSE, color = discord.Color.yellow())
         return embed
 
     def text_embed_found_setter(self, ctx, embed, x):
