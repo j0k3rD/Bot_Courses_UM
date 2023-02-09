@@ -3,31 +3,31 @@
 > UM Discord programming course search bot.<br>Repositorio usado para el proyecto Bot Discord de Diseño de Sistemas de la UM 2022.
 
 <h3>Description</h3> 
-This Bot is in charge of searching for programming courses on the internet with the help of an App programmed in Python and Flask.
-This App is responsible for performing search tasks in browsers such as Chrome or Firefox with the help of Selenium.
-It also has a database that registers the users who interact with the bot, the searches that each of these make and saves the courses found in order to show which courses are the most sought after.
+This Bot is a solution to search for programming courses on the internet. The application, programmed in Python and Flask, uses Selenium to perform searches in browsers such as Chrome or Firefox. In addition, it has an SQL database that records user interactions with the Bot, including the searches performed and the courses found. This way, you can determine which courses are the most popular and offer personalized suggestions to users in the future.
+
 <h3>Install</h3>
 
-**Geckodriver:**
+- 1 - Download or clone the repository to your local environment.
+- 2 - **Geckodriver:**
+  - Download geckodriver at: [geckodriver-download](https://github.com/mozilla/geckodriver/releases)
+  - Unzip the file.
+  - Execute: ```
+  sudo mv ./geckodriver-v0.31.0-linux64 /usr/bin/geckodriver```
+  - Give permissions: ```
+  sudo chmod +x /usr/bin/geckodriver```
+- 4 - Create a Discord Bot: [Create-Discord-App](https://discord.com/developers/applications)
+  - Go to *Bot* and create new. (IMPORTANT: If the name of the application is already in use, you will have to change it to be able to create the bot.)
+- 3 - Execute: ```
+  sh install.sh```
+- 4 - Execute: ```
+  sh boot.sh```
+  
+**Requirements:**
 
-- Descargar geckodriver en: [geckodriver-download](https://github.com/mozilla/geckodriver/releases)
-- Descomprimir archivo.
-- Ejecutar: ```
-sudo mv ./geckodriver-v0.31.0-linux64 /usr/bin/geckodriver```
-- Dar permisos: ```
-sudo chmod +x /usr/bin/geckodriver```
-
-**Requerimientos:**
-
-Utilidades y Frameworks incluidos en los requerimientos:
+Utilities and Frameworks included in the requirements:
 - Flask
 - Flask-Discord
 - python-dotenv
 - flask_sqalchemy
 - selenium
 - webdriver-manager
-
-Instrucciones de instalacion:
-
-Ejecutar: ``` 
-./install.sh```
