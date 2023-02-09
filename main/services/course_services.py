@@ -37,5 +37,4 @@ class CourseService(Service):
 
         for i in range(10):
             course_list.append((title_list[i], url_list[i]))
-        print(course_list)
         return course_list
