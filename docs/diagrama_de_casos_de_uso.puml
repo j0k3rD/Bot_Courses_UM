@@ -8,7 +8,9 @@ left to right direction
 actor "Cliente" as c
 rectangle Bot {
   usecase "Pide Informacion sobre Cursos" as UC1
+  usecase "Pide Top de Cursos mas buscados" as UC2
 }
 c --> UC1
+c --> UC2
 
 @enduml

@@ -1,0 +1,62 @@
+@startuml
+
+' Almacenar Busquedas mediante bot.
+
+actor Bot
+boundary SearchController
+
+participant UserValidate
+participant UserService
+participant UserRepository
+participant SearchService
+participant SearchRepository
+participant UserSchema
+participant SearchSchema
+entity UserModel
+entity SearchModel
+database data
+
+Bot -> SearchController: POST (keyword, discord_id)
+activate SearchController
+SearchController -> UserValidate: validate(discord_id)
+activate UserValidate
+UserValidate -> UserService: get_by_discord_id()
+deactivate UserValidate
+activate UserService
+UserService -> UserRepository: find_by_discord_id()
+deactivate UserService
+activate UserRepository
+UserRepository -> UserModel: discord_id()
+deactivate UserRepository
+activate UserModel
+UserModel -> data: query (SELECT)
+UserModel <- data: Register
+UserModel -> UserSchema: Objeto user
+deactivate UserModel
+activate UserSchema
+UserSchema -> SearchController: Json user
+deactivate UserSchema
+SearchController -> SearchSchema: load(data)
+activate SearchSchema
+SearchSchema -> SearchController: model
+deactivate SearchSchema
+SearchController -> SearchService: add(model)
+activate SearchService
+SearchService -> SearchRepository: create(model)
+deactivate SearchService
+activate SearchRepository
+SearchRepository -> SearchModel: commit(model)
+deactivate SearchRepository
+activate SearchModel
+SearchModel -> data: Insert
+SearchModel <- data: Object
+SearchModel -> SearchSchema: Objeto user
+deactivate SearchModel
+activate SearchSchema
+SearchSchema -> SearchController: Json user
+deactivate SearchSchema
+deactivate UserSchema
+SearchController -> Bot : Json
+deactivate SearchController
+
+@enduml

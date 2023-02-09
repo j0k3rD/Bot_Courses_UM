@@ -2,7 +2,7 @@ from flask_restful import Resource
 from flask import request
 from main.services import CourseService, SearchService, UserService
 from main.map import CourseSchema
-from main.validate import CourseValidate
+from main.validate import CourseValidate, SearchValidate, UserValidate
 
 validate = CourseValidate()
 schema = CourseSchema()
@@ -45,31 +45,42 @@ class Courses(Resource):
 
     def post_course(self, courses_urls, discord_id):
 
-        Search_service = SearchService()
-        User_service = UserService()
+        search_service = SearchService()
+        search_validate = SearchValidate()
+        user_service = UserService()
+        user_validate = UserValidate()
 
-        user_model = User_service.get_by_discord_id(discord_id = discord_id)
+        @user_validate.get_user(discord_id = discord_id)
+        def validater():
+            user_model = user_service.get_by_discord_id(discord_id = discord_id)
 
-        search_model = Search_service.get_by_user_id(user_id = user_model.id)
-        search_id = search_model.id
+            @search_validate.get_search_by_user_id(user_id = user_model.id)
+            def validater():
+                search_model = search_service.get_by_user_id(user_id = user_model.id)
+                search_id = search_model.id
 
-        for i in range(len(courses_urls)):
-            course = service.get_by_course_url(course_url = courses_urls[i][1])
+                for i in range(len(courses_urls)):
+                    course = service.get_by_course_url(course_url = courses_urls[i][1])
 
-            if course:
-                service.add_count(id = course.id)
-                if (i == len(courses_urls) - 1):
-                    return "All course models saved", 201
-                continue
-            
-            data = {
-                "url": courses_urls[i][1],
-                "title": courses_urls[i][0],
-                "search_id": search_id
-            }
+                    if course:
+                        service.add_count(id = course.id)
+                        if (i == len(courses_urls) - 1):
+                            return "All course models saved", 201
+                        continue
+                    
+                    data = {
+                        "url": courses_urls[i][1],
+                        "title": courses_urls[i][0],
+                        "search_id": search_id
+                    }
 
-            model = schema.load(data)
-            model = service.add(model)
-            
-            if (i == len(courses_urls) - 1):
-                return "All course models saved", 201
+                    model = schema.load(data)
+                    model = service.add(model)
+                    
+                    if (i == len(courses_urls) - 1):
+                        return "All course models saved", 201
+
+            return validater()
+        return validater()
+
+        
