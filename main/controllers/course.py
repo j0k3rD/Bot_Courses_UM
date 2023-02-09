@@ -54,33 +54,28 @@ class Courses(Resource):
         def validater():
             user_model = user_service.get_by_discord_id(discord_id = discord_id)
 
-            @search_validate.get_search_by_user_id(user_id = user_model.id)
-            def validater():
-                search_model = search_service.get_by_user_id(user_id = user_model.id)
-                search_id = search_model.id
+            search_model = search_service.get_by_user_id(user_id = user_model.id)
+            search_id = search_model.id
 
-                for i in range(len(courses_urls)):
-                    course = service.get_by_course_url(course_url = courses_urls[i][1])
+            for i in range(len(courses_urls)):
+                course = service.get_by_course_url(course_url = courses_urls[i][1])
 
-                    if course:
-                        service.add_count(id = course.id)
-                        if (i == len(courses_urls) - 1):
-                            return "All course models saved", 201
-                        continue
-                    
-                    data = {
-                        "url": courses_urls[i][1],
-                        "title": courses_urls[i][0],
-                        "search_id": search_id
-                    }
-
-                    model = schema.load(data)
-                    model = service.add(model)
-                    
+                if course:
+                    service.add_count(id = course.id)
                     if (i == len(courses_urls) - 1):
                         return "All course models saved", 201
+                    continue
+                
+                data = {
+                    "url": courses_urls[i][1],
+                    "title": courses_urls[i][0],
+                    "search_id": search_id
+                }
 
-            return validater()
-        return validater()
+                model = schema.load(data)
+                model = service.add(model)
+                
+                if (i == len(courses_urls) - 1):
+                    return "All course models saved", 201
 
-        
+        return validater()        

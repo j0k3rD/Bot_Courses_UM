@@ -20,7 +20,7 @@ class Bot():
             if response.status_code == 404:
                 embed = self.text_embed_not_found(response, keyword)
             else:
-                embed = self.text_embed_found(ctx, keyword)
+                embed = self.text_embed_found(keyword)
                 #Convertir el string en una lista
                 x = ast.literal_eval(response.json()['message'])
                 # Guardar información del usuario
