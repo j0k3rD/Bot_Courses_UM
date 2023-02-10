@@ -32,3 +32,27 @@ Once this is done, copy the invitation link that will be generated at the bottom
   sh boot.sh```
 
 <h3>How to Use</h3>
+Usage is the same as any Discord Bot. Once the prefix for the bot has been set, we will have two commands to use. (Example assuming I don't change the default prefix which is '!')
+
+- **"!search"**: This command, followed by the course keyword you want to search for. Example: if I want to search for courses on "c++", I will have to write "!search c++". And the bot will perform the search and return a list of courses on that specific topic.
+
+- **"!top"**: This command will show us on the screen a list with the 10 most searched courses by the bot. (In the event that it is your own bot and it is not "CoursesUMBot", you will have to perform several searches for this ranking to be generated)."
+
+<h3>Documentation</h3>
+
+Please see the [**online documentation**](https://github.com/j0k3rD/Bot_Courses_UM/wiki) for more information on how to use this Bot.
+
+<h3>Contribution</h3>
+If you want to contribute to this project, please follow the steps below:
+
+1. Fork the repository.
+2. Make your changes in a separate branch.
+3. Make a pull request with your changes.
+
+<h3>Author</h3>
+
+This project was created by [**XxRaXoRxX**](https://github.com/XxRaXoRxX) and [**j0k3rD**](https://github.com/j0k3rD).
+
+<h3>Thanks</h3>
+
+We thank everyone who has contributed to this project and supported it in any way. Thank you for your cooperation!
