@@ -1,0 +1,95 @@
+@startuml
+
+' Almacenar Busquedas mediante bot.
+
+actor Client
+boundary CourseController
+
+participant UserValidate
+participant UserService
+participant UserRepository
+participant SearchValidate
+participant SearchService
+participant SearchRepository
+participant CourseValidate
+participant CourseService
+participant CourseRepository
+participant UserSchema
+participant CourseSchema
+entity UserModel
+entity CourseModel
+database data
+
+' Obtener id del cliente
+Client -> CourseController: POST (courses_url, discord_id)
+activate CourseController
+CourseController -> UserValidate: validate(discord_id)
+activate UserValidate
+UserValidate -> UserService: get_by_discord_id()
+deactivate UserValidate
+activate UserService
+UserService -> UserRepository: find_by_discord_id()
+deactivate UserService
+activate UserRepository
+UserRepository -> UserModel: discord_id()
+deactivate UserRepository
+activate UserModel
+UserModel -> data: query (SELECT)
+UserModel <- data: Register
+UserModel -> UserSchema: Object user
+deactivate UserModel
+activate UserSchema
+UserSchema -> CourseController: Json user
+deactivate UserSchema
+
+' Obtener id de la busqueda mediante id de cliente.
+CourseController -> SearchValidate: validate(user_moded.id)
+activate SearchValidate
+SearchValidate -> SearchService: get_by_discord_id(id)
+deactivate SearchValidate
+activate SearchService
+SearchService -> SearchRepository: find_by_discord_id(id)
+deactivate SearchService
+activate SearchRepository
+SearchRepository -> UserModel: get(id)
+deactivate SearchRepository
+activate UserModel
+UserModel -> data: query (SELECT)
+UserModel <- data: Register
+UserModel -> UserSchema: Object user
+deactivate UserModel
+activate UserSchema
+UserSchema -> CourseController: Json user
+deactivate UserSchema
+
+' Sumar al count en caso de encontrar usuario.
+loop courses count times
+    CourseController -> CourseService: get_by_course_url(url)
+    activate CourseService
+    CourseService -> CourseRepository: find_course_by_url(url)
+    deactivate CourseService
+    activate CourseRepository
+    CourseRepository -> CourseModel: get(url)
+    deactivate CourseRepository
+    activate CourseModel
+    CourseModel -> data: query (SELECT)
+    CourseModel <- data: Register
+    CourseModel -> CourseController: Objeto Course
+    deactivate CourseModel
+    CourseController -> CourseService: add_count(id)
+    activate CourseService
+    CourseService -> CourseRepository: add_count(id)
+    deactivate CourseService
+    activate CourseRepository
+    CourseRepository -> CourseModel: commit(id)
+    deactivate CourseRepository
+    activate CourseModel
+    CourseModel -> data: Insert
+    CourseModel <- data: Object
+    CourseModel -> CourseController: Object course
+    deactivate CourseModel
+end
+CourseController -> Client : Json
+deactivate CourseController
+
+@enduml

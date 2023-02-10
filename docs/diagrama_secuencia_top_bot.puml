@@ -1,0 +1,38 @@
+@startuml
+
+' Obtener Top 10 de cursos.
+
+actor Client
+boundary UserController
+
+participant TopResource
+participant CourseService
+participant CourseRepository
+participant CourseSchema
+entity CourseModel
+database data
+
+Client -> UserController: GET
+activate UserController
+UserController -> TopResource: top()
+activate TopResource
+TopResource -> CourseService: get_top_courses()
+deactivate TopResource
+activate CourseService
+CourseService -> CourseRepository: find_top_courses()
+deactivate CourseService
+activate CourseRepository
+CourseRepository -> CourseModel: get()
+deactivate CourseRepository
+activate CourseModel
+CourseModel -> data: query (SELECT)
+CourseModel <- data: Object
+CourseModel -> CourseSchema: Object course
+deactivate CourseModel
+activate CourseSchema
+CourseSchema -> UserController: Json course (many = true)
+deactivate CourseSchema
+UserController -> Client : Json
+deactivate UserController
+
+@enduml

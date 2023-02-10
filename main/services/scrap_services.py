@@ -6,12 +6,6 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from main.models import SearchModel
 from ..import db
 from flask import Blueprint, jsonify
-from ..repositories import SearchRepository
-from ..map.course_schema import SearchSchema
-
-course_repository = SearchRepository()
-course_schema = SearchSchema()
-
 
 class ScrapServices:
 

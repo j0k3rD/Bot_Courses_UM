@@ -2,7 +2,7 @@
 
 ' Almacenar Busquedas mediante bot.
 
-actor Bot
+actor Client
 boundary UserController
 
 participant UserValidate
@@ -12,7 +12,7 @@ participant UserSchema
 entity SearchModel
 database data
 
-Bot -> UserController: POST (discord_id, name)
+Client -> UserController: POST (discord_id, name)
 activate UserController
 UserController -> UserValidate: validate(discord_id)
 activate UserValidate
@@ -31,13 +31,12 @@ deactivate UserRepository
 activate SearchModel
 SearchModel -> data: Insert
 SearchModel <- data: Object
-SearchModel -> UserSchema: Objeto user
+SearchModel -> UserSchema: Object user
 deactivate SearchModel
 activate UserSchema
 UserSchema -> UserController: Json user
 deactivate UserSchema
-deactivate UserSchema
-UserController -> Bot : Json
+UserController -> Client : Json
 deactivate UserController
 
 @enduml
