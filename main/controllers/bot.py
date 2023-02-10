@@ -8,7 +8,7 @@ from main.constants.bot import BotConstants
 class Bot():
 
     def bot_up(self):
-        
+
         discord_intents = discord.Intents.all()
         discord_intents.message_content = True
 
@@ -20,7 +20,9 @@ class Bot():
             response = requests.get(f'{api_url}search/firefox/{keyword}')
             
             if response.status_code == 404:
-                embed = self.text_embed_not_found(response, keyword)
+                self.save_user(user_name = ctx.message.author, user_id = ctx.message.author.id)
+                self.save_search(keywords = keyword, user_id = ctx.message.author.id)
+                embed = self.text_embed_not_found(ctx, keyword)
             else:
                 embed = self.text_embed_found(keyword)
                 #Convertir el string en una lista
