@@ -8,11 +8,26 @@ from ..import db
 from flask import Blueprint, jsonify
 
 class ScrapServices:
-
+    '''
+    Clase que representa el servicio de scraping (busqueda de cursos en la web)
+    '''
     def __init__(self, browser:Browser):
+        '''
+        Constructor de la clase
+
+        param:
+            - browser: Navegador que se va a utilizar para realizar la búsqueda
+        '''
         self.browser = browser
 
     def search(self, keyword:str, url:str):
+        '''
+        Funcion que realiza la busqueda de cursos en la web
+
+        param:
+            - keyword: Palabra clave a buscar
+            - url: Url a la que se va a buscar
+        '''
         html = self.browser.search(keyword, url)
         course = self.parser(html)
         res = self.send_data(course)
@@ -21,6 +36,12 @@ class ScrapServices:
 
     #Mostrar al usuario los datos scrapeados
     def send_data(self, data):
+        '''
+        Funcion que muestra al usuario los datos scrapeados
+
+        param:
+            - data: Datos scrapeados
+        '''
         if len(data) == 0:
             return None
         else:
@@ -28,9 +49,20 @@ class ScrapServices:
 
     #Cerrar el navegador
     def close_browser(self):
+        '''
+        Funcion que cierra el navegador
+        '''
         self.browser.close()
 
     def parser(self, html:WebDriver):
+        '''
+        Funcion que parsea la pagina web
+
+        param:
+            - html: Pagina web
+        return:
+            - course_list: Lista de cursos scrapeados
+        '''
         title_course = html.find_elements("xpath","//h2[@class='no-margin-bottom normal-line-height f-text-22 ibm bold-600 f-top-12']")
         title_course = [   title.text    for title in title_course]
         if title_course != None:

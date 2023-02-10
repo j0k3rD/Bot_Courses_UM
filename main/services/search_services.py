@@ -4,6 +4,12 @@ from main.services.services import Service
 repository = SearchRepository()
 
 class SearchService(Service):
+    '''
+    Clase que representa el servicio de la entidad Search
+
+    param:
+        - Service: Clase que hereda de la interfaz Service
+    '''
 
     def add(self, model):
         return repository.create(model)
@@ -15,4 +21,12 @@ class SearchService(Service):
         return repository.find_by_id(id = id)
 
     def get_by_user_id(self, user_id):
+        '''
+        Método que obtiene un curso por su url
+
+        param:
+            - user_id: Id del usuario
+        return:
+            - model: Modelo de la entidad Search
+        '''
         return repository.find_by_user_id(user_id = user_id)
