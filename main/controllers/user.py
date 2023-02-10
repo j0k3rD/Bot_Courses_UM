@@ -4,13 +4,13 @@ from main.services import UserService
 from main.map import UserSchema
 from main.validate import UserValidate
 
+
 validate = UserValidate()
 schema = UserSchema()
 service = UserService()
 
 
 class User(Resource):
-
 
     def get(self, id):
 
@@ -41,7 +41,7 @@ class Users(Resource):
 
         # Validate if user already exists.
         if service.get_by_discord_id(discord_id):
-            return f'User already exists by discord_id, {discord_id}', 404
+            return f'User already exists by discord_id, {discord_id}', 201
     
         # Create user.
         data = {

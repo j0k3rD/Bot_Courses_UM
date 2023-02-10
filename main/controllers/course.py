@@ -4,6 +4,7 @@ from main.services import CourseService, SearchService, UserService
 from main.map import CourseSchema
 from main.validate import CourseValidate, SearchValidate, UserValidate
 
+
 validate = CourseValidate()
 schema = CourseSchema()
 service = CourseService()
@@ -11,7 +12,6 @@ service = CourseService()
 class Course(Resource):
 
     def get(self, id):
-        
         @validate.validate_course(id)
         def validater():
             return schema.dump(service.get_by_id(id)), 201
@@ -30,7 +30,6 @@ class Courses(Resource):
         return schema.dump(service.get_all(), many=True), 201
                 
     def post(self):
-
         json = request.json
 
         if not json:
@@ -44,7 +43,6 @@ class Courses(Resource):
             
 
     def post_course(self, courses_urls, discord_id):
-
         search_service = SearchService()
         search_validate = SearchValidate()
         user_service = UserService()

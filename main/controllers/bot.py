@@ -4,9 +4,11 @@ from multiprocessing import Process
 import ast
 from main.constants.bot import BotConstants
 
+
 class Bot():
 
     def bot_up(self):
+        
         discord_intents = discord.Intents.all()
         discord_intents.message_content = True
 
