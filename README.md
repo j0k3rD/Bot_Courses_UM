@@ -9,7 +9,9 @@ This Bot is a solution to search for programming courses on the internet. The ap
 
 - 1 - Download or clone the repository to your local environment.
 - 2 - **Geckodriver:**
-  - Download geckodriver at: [geckodriver-download](https://github.com/mozilla/geckodriver/releases)
+  - Download geckodriver at: 
+    - Firefox: [geckodriver-firefox-download](https://github.com/mozilla/geckodriver/releases)
+    - Google: [geckodriver-chrome-download](https://chromedriver.chromium.org/)
   - Unzip the file.
   - Execute: ```
   sudo mv ./geckodriver-v0.31.0-linux64 /usr/bin/geckodriver```
