@@ -6,11 +6,11 @@ from main.services.browser import Browser
 
 class FirefoxBrowser(Browser):
 
-    def _Browser__get_service(self):
+    def _get_service(self):
         service = Service()
         return service
 
-    def _Browser__get_options(self):
+    def _get_options(self):
         options = webdriver.FirefoxOptions()
         #-----------------------#
         #-Run in headless mode--#
@@ -25,13 +25,13 @@ class FirefoxBrowser(Browser):
         options.log.level = "INFO"
         return options
 
-    def _Browser__get_browser(self):
-        browser = webdriver.Firefox(options=self._Browser__get_options(), service=self._Browser__get_service())
+    def _get_browser(self):
+        browser = webdriver.Firefox(options=self._get_options(), service=self._get_service())
         #browser.set_window_position(0, 0)
         return browser
 
     def search(self, keyword:str, url:str) -> WebDriver:
         #Open Browser
-        driver = self._Browser__get_browser()
+        driver = self._get_browser()
         driver.get(f'{url}={keyword}')
         return driver

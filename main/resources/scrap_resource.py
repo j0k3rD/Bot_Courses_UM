@@ -2,11 +2,19 @@ from flask import Blueprint, jsonify
 from main.services import ScrapServices, FirefoxBrowser, ChromeBrowser
 import urllib.parse
 
-
 scrapblue = Blueprint('scrapblue',__name__, url_prefix='/')
 
 @scrapblue.route('/search/<browser>/<keyword>/', methods=['GET'])
 def search(browser:str,keyword:str):
+    '''
+    Funcion llamada por request GET a la ruta /api/v1/search/<browser>/<keyword>/
+
+    args:
+        - browser: Indica el navegador a utilizar para la busqueda
+        - keyword: Indica la palabra clave a buscar
+    return:
+        - resp: Devuelve el listado de cursos
+    '''
     if browser.lower() != "chrome" and browser.lower() != "firefox":
         resp = jsonify({'status':'Invalid browser option! (Choose between "chrome" or "firefox")'})
         resp.status_code = 404

@@ -6,12 +6,18 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 class ChromeBrowser(Browser):
+    '''
+    Clase que representa el navegador Chrome
 
-    def _Browser__get_service(self):
+    param:
+        - Browser: Clase abstracta de busqueda
+    '''
+
+    def _get_service(self):
         service = Service()
         return service
 
-    def _Browser__get_options(self):
+    def _get_options(self):
         #Navegation Options
         options = webdriver.ChromeOptions()
         options.add_argument('--start-maximized')
@@ -19,12 +25,12 @@ class ChromeBrowser(Browser):
         #options.add_argument('headless') #Comentar para ver como funciona
         return options
 
-    def _Browser__get_browser(self):
-        browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self._Browser__get_options())
+    def _get_browser(self):
+        browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self._get_options())
         return browser
 
     def search(self, keyword:str, url:str) -> WebDriver:
         #Open Browser
-        driver=self._Browser__get_browser()
+        driver=self._get_browser()
         driver.get(f'{url}={keyword}')
         return driver

@@ -2,8 +2,13 @@ from .. import db
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
 
-
 class Search(db.Model):
+    '''
+        Clase que representa la entidad Search en la base de datos
+
+        param:
+            - db.Model: Clase de la cual hereda para mapear la entidad.
+    '''
     __tablename__ = 'searchs'
     __id = db.Column('id', db.Integer, primary_key=True, nullable=False)
     __keywords = db.Column('keywords', db.String(100), nullable = False)

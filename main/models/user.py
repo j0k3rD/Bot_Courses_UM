@@ -2,6 +2,12 @@ from .. import db
 from sqlalchemy.ext.hybrid import hybrid_property
 
 class User(db.Model):
+    '''
+        Clase que representa la entidad User en la base de datos
+
+        param:
+            - db.Model: Clase de la cual hereda para mapear la entidad.
+    '''
     __tablename__ = 'users'
     __id = db.Column('id', db.Integer, primary_key=True, nullable=False)
     __discord_id = db.Column('discord_id', db.Integer, nullable=False)

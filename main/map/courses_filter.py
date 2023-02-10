@@ -3,6 +3,11 @@ from main.models import CourseModel
 
 
 class CourseFilter():
+    '''
+    TODO: Implementar en caso de querer un admin para administrar los datos de la base de datos.
+    
+    Clase que representa el filtro de la entidad Course    
+    '''
     
     def __init__(self, course):
         self.__course = course

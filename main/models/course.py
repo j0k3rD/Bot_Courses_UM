@@ -2,6 +2,12 @@ from .. import db
 from sqlalchemy.ext.hybrid import hybrid_property
 
 class Course(db.Model):
+    '''
+        Clase que representa la entidad Course en la base de datos
+
+        param:
+            - db.Model: Clase de la cual hereda para mapear la entidad.
+    '''
     __tablename__ = 'courses'
     __id = db.Column('id', db.Integer, primary_key=True, nullable=False)
     __url = db.Column('url', db.String(100), nullable = False)

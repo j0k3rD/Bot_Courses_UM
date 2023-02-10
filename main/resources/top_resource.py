@@ -5,6 +5,12 @@ topblue = Blueprint('topblue',__name__, url_prefix='/')
 
 @topblue.route('/top/', methods=['GET'])
 def top():
+    '''
+    Funcion llamada por request GET a la ruta /api/v1/top/
+
+    return:
+        - resp: Devuelve el listado de cursos mas buscados.
+    '''
     course_service = CourseService()
     top_list = course_service.get_top_courses()
     if top_list == None:

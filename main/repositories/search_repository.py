@@ -2,8 +2,16 @@ from main.repositories.repository import Create, Delete, Read, Update
 from main.models import SearchModel
 from .. import db
 
+# TODO: Implementar delete en caso de agregar administrador para eliminar cursos.
 class SearchRepository(Create, Read, Update):
+    '''
+    Clase que representa el repositorio de la entidad Search
 
+    param:
+        - Create: Clase que hereda de la interfaz Create
+        - Read: Clase que hereda de la interfaz Read
+        - Update: Clase que hereda de la interfaz Update
+    '''
     def __init__(self):
         self.__type_model = SearchModel
     
