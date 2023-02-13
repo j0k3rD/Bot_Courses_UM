@@ -3,7 +3,7 @@ import os, requests, discord, datetime
 from multiprocessing import Process
 import ast
 from main.constants.bot import BotConstants
-
+from main.utils.command_invoker import Invoker
 
 class Bot():
 
@@ -42,11 +42,19 @@ class Bot():
                 # Guardar información del usuario
                 user_id = ctx.message.author.id
                 user_name = ctx.message.author
-                self.__save_user(user_name = user_name, discord_id = user_id)
+
+                invoker = Invoker()
+
+                # Guardar usuario
+                save_user = invoker.get_command('save_user')
+                save_search = invoker.get_command('save_search')
+                save_course = invoker.get_command('save_course')
+
+                save_user.execute(user_name = user_name, discord_id = user_id)
                 # Guardar lo escrito por el usuario
-                self.__save_search(keywords = keyword, discord_id = ctx.message.author.id)
+                save_search.execute(keywords = keyword, discord_id = ctx.message.author.id)
                 # Guardar los cursos en la base de datos
-                self.__save_course(courses = courses, discord_id = user_id)
+                save_course.execute(courses = courses, discord_id = user_id)
 
                 self.__text_embed_found_setter(ctx, embed, courses)
             
@@ -73,61 +81,6 @@ class Bot():
             await ctx.send(embed = embed)
 
         return Process(target=bot.run, args=(os.getenv('DISCORD_TOKEN'),))
-
-
-    def __save_user(self, user_name, discord_id):
-        '''
-        Función que guarda la información del usuario en la base de datos.
-
-        args:
-            - user_name: Nombre del usuario.
-            - user_id: ID del usuario en discord.
-        '''
-        api_url = os.getenv('API_URL')
-
-        user_data = {
-            "discord_id": discord_id,
-            "name": str(user_name)
-        }
-
-        requests.post(url = f"{api_url}users", json = user_data)
-
-
-    def __save_search(self, keywords, discord_id):
-        '''
-        Función que guarda la información de la búsqueda del usuario en la base de datos.
-
-        args:
-            - keywords: Palabra clave para buscar el curso.
-            - discord_id: ID del usuario en discord.
-        '''
-        api_url = os.getenv('API_URL')
-
-        search_data = {
-            "keywords": str(keywords),
-            "discord_id": str(discord_id)
-        }
-
-        requests.post(url = f"{api_url}searches", json = search_data)
-
-
-    def __save_course(self, courses, discord_id):
-        '''
-        Función que guarda la información de los cursos en la base de datos.
-
-        args:
-            - courses: Lista de cursos.
-            - discord_id: ID del usuario en discord.
-        '''
-        api_url = os.getenv('API_URL')
-
-        course_data = {
-            "courses": courses,
-            "discord_id": str(discord_id)
-        }
-
-        requests.post(url = f"{api_url}courses", json = course_data)
-
 
     def __text_embed_not_found(self, ctx, user_input):
         '''
