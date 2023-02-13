@@ -14,6 +14,10 @@ class Bot():
         return:
             - Process: Devuelve el proceso con la función del bot y el token.
         '''
+
+        def __init__(self, invoker: Invoker):
+            self.__invoker = invoker
+
         discord_intents = discord.Intents.all()
         discord_intents.message_content = True
 
@@ -43,12 +47,13 @@ class Bot():
                 user_id = ctx.message.author.id
                 user_name = ctx.message.author
 
-                invoker = Invoker()
-
-                # Guardar usuario
-                save_user = invoker.get_command('save_user')
-                save_search = invoker.get_command('save_search')
-                save_course = invoker.get_command('save_course')
+                if (self.__invoker != None):
+                    # Guardar usuario
+                    save_user = self.__invoker.get_command('save_user')
+                    save_search = self.__invoker.get_command('save_search')
+                    save_course = self.__invoker.get_command('save_course')
+                else:
+                    print("Invoker is Null")
 
                 save_user.execute(user_name = user_name, discord_id = user_id)
                 # Guardar lo escrito por el usuario

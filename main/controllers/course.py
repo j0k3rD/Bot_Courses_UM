@@ -4,10 +4,6 @@ from main.services import CourseService, SearchService, UserService
 from main.map import CourseSchema
 from main.validate import CourseValidate, SearchValidate, UserValidate
 
-validate = CourseValidate()
-schema = CourseSchema()
-service = CourseService()
-
 class Course(Resource):
     '''
     Clase que representa el controlador de la entidad Course
@@ -15,6 +11,15 @@ class Course(Resource):
     param: 
         - Resource: Clase de la cual hereda
     '''
+
+    def __init__(self):
+        self.__validate = CourseValidate()
+        self.__schema = CourseSchema()
+        self.__service = CourseService()
+        self.__search_service = SearchService()
+        self.__search_validate = SearchValidate()
+        self.__user_service = UserService()
+        self.__user_validate = UserValidate()
 
     def get(self, id):
         '''
@@ -25,9 +30,9 @@ class Course(Resource):
         return:
             - Curso en formato json o error 404
         '''
-        @validate.validate_course(id)
+        @self.__validate.validate_course(id)
         def validater():
-            return schema.dump(service.get_by_id(id)), 201
+            return self.__schema.dump(self.__service.get_by_id(id)), 201
         return validater()
 
     '''
@@ -55,7 +60,7 @@ class Courses(Resource):
         return:
             - Lista de cursos en formato json
         '''
-        return schema.dump(service.get_all(), many=True), 201
+        return self.__schema.dump(self.__service.get_all(), many=True), 201
                 
     def post(self):
         '''
@@ -86,25 +91,21 @@ class Courses(Resource):
         return:
             - Mensaje de éxito o error 404
         '''
-        search_service = SearchService()
-        search_validate = SearchValidate()
-        user_service = UserService()
-        user_validate = UserValidate()
 
-        @user_validate.get_user(discord_id = discord_id)
+        @self.__user_validate.get_user(discord_id = discord_id)
         def validater():
-            user_model = user_service.get_by_discord_id(discord_id = discord_id)
+            user_model = self.__user_service.get_by_discord_id(discord_id = discord_id)
 
-            @search_validate.get_by_user_id(user_id = user_model.id)
+            @self.__search_validate.get_by_user_id(user_id = user_model.id)
             def validater():
-                search_model = search_service.get_by_user_id(user_id = user_model.id)
+                search_model = self.__search_service.get_by_user_id(user_id = user_model.id)
                 search_id = search_model.id
 
                 for i in range(len(courses_urls)):
-                    course = service.get_by_course_url(course_url = courses_urls[i][1])
+                    course = self.__service.get_by_course_url(course_url = courses_urls[i][1])
 
                     if course:
-                        service.add_count(id = course.id)
+                        self.__service.add_count(id = course.id)
                         if (i == len(courses_urls) - 1):
                             return "All course models saved", 201
                         continue
@@ -115,8 +116,8 @@ class Courses(Resource):
                         "search_id": search_id
                     }
 
-                    model = schema.load(data)
-                    model = service.add(model)
+                    model = self.__schema.load(data)
+                    model = self.__service.add(model)
                     
                     if (i == len(courses_urls) - 1):
                         return "All course models saved", 201

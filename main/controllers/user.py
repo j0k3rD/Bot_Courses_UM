@@ -4,12 +4,6 @@ from main.services import UserService
 from main.map import UserSchema
 from main.validate import UserValidate
 
-
-validate = UserValidate()
-schema = UserSchema()
-service = UserService()
-
-
 class User(Resource):
     '''
     Clase que representa el controlador de la entidad User
@@ -17,6 +11,10 @@ class User(Resource):
     param:
         - Resource: Clase de la cual hereda
     '''
+    def __init__(self):
+        self.__validate = UserValidate()
+        self.__schema = UserSchema()
+        self.__service = UserService()
 
     def get(self, id):
         '''
@@ -27,9 +25,9 @@ class User(Resource):
         return:
             - Usuario en formato json o error 404
         '''
-        @validate.validate_user(id)
+        @self.__validate.validate_user(id)
         def validater():
-            return schema.dump(service.get_by_id(id)), 201
+            return self.__schema.dump(self.__service.get_by_id(id)), 201
         return validater()
             
     '''
@@ -57,7 +55,7 @@ class Users(Resource):
         return:
             - Lista de usuarios en formato json
         '''
-        model = schema.dump(service.get_all(), many=True)
+        model = self.__schema.dump(self.__service.get_all(), many=True)
         return model, 201
 
     def post(self):
@@ -73,7 +71,7 @@ class Users(Resource):
         username = user_json["name"]
 
         # Validate if user already exists.
-        if service.get_by_discord_id(discord_id):
+        if self.__service.get_by_discord_id(discord_id):
             return f'User already exists by discord_id, {discord_id}', 201
     
         # Create user.
@@ -81,5 +79,5 @@ class Users(Resource):
             "discord_id": discord_id,
             "name": username
         }
-        model = schema.load(data)
-        return schema.dump(service.add(model)), 201
+        model = self.__schema.load(data)
+        return self.__schema.dump(self.__service.add(model)), 201

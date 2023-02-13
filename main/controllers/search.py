@@ -4,11 +4,6 @@ from main.services import SearchService, UserService
 from main.map import SearchSchema, UserSchema
 from main.validate import SearchValidate, UserValidate
 
-validate = SearchValidate()
-schema = SearchSchema()
-service = SearchService()
-
-
 class Search(Resource):
     '''
     Clase que representa el controlador de la entidad Search
@@ -16,6 +11,14 @@ class Search(Resource):
     param:
         - Resource: Clase de la cual hereda
     '''
+
+    def __init__(self):
+        self.__validate = SearchValidate()
+        self.__schema = SearchSchema()
+        self.__service = SearchService()
+        self.__user_validate = UserValidate()
+        self.__user_service = UserService()
+        self.__user_schema = UserSchema()
 
     def get(self, id):
         '''
@@ -26,9 +29,9 @@ class Search(Resource):
         return:
             - Busqueda en formato json o error 404
         '''
-        @validate.validate_search(id)
+        @self.__validate.validate_search(id)
         def validater():
-            return schema.dump(service.get_by_id(id)), 201
+            return self.__schema.dump(self.__service.get_by_id(id)), 201
         return validater()
             
     '''
@@ -57,7 +60,7 @@ class Searchs(Resource):
             - Lista de busquedas en formato json
         '''
         
-        model = schema.dump(service.get_all(), many=True)
+        model = self.__schema.dump(self.__service.get_all(), many=True)
         return model, 201
 
     def post(self):
@@ -67,24 +70,22 @@ class Searchs(Resource):
         return:
             - Busqueda en formato json
         '''
-        user_validate = UserValidate()
-        user_service = UserService()
-        user_schema = UserSchema()
+        
 
         # Json values
         user_json = request.json
         keywords = user_json["keywords"]
         discord_id = user_json["discord_id"]
 
-        @user_validate.get_user(discord_id = discord_id)
+        @self.__user_validate.get_user(discord_id = discord_id)
         def validater():
 
-            user = user_schema.dump(user_service.get_by_discord_id(discord_id = discord_id))
+            user = self.__user_schema.dump(self.__user_service.get_by_discord_id(discord_id = discord_id))
             data = {
                 "keywords": keywords,
                 "user_id": user["id"]
             }
-            model = schema.load(data) 
-            return schema.dump(service.add(model)), 201
+            model = self.__schema.load(data) 
+            return self.__schema.dump(self.__service.add(model)), 201
 
         return validater()

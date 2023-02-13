@@ -1,6 +1,22 @@
 from .command_bot import SaveCourseCommand, SaveSearchCommand, SaveUserCommand
+from abc import ABC, abstractmethod
 
-class Invoker():
+class Invoker(ABC):
+
+    @abstractmethod
+    def get_command(self, command_name):
+        '''
+        Obtener el tipo de comando.
+
+        args:
+            - command_name: Nombre del comando.
+
+        return:
+            - command: Comando.
+        '''
+        pass
+
+class InvokerCommandsBot(Invoker):
     '''
     Clase creadora de comandos para el bot.
     '''
@@ -12,15 +28,6 @@ class Invoker():
         }
 
     def get_command(self, command_name):
-        '''
-        Obtener el tipo de comando.
-
-        args:
-            - command_name: Nombre del comando.
-            
-        return:
-            - command: Comando.
-        '''
         command = self.__list_commands.get(command_name)
         if not command:
             raise Exception('Command not found')
