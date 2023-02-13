@@ -74,19 +74,19 @@ class SaveCourseCommand(Command):
         self.__url = "courses"
         self.__user_data = None
 
-    def __set_data(self, discord_id, course):
+    def __set_data(self, discord_id, courses):
         self.__user_data = {
-            "courses": course,
+            "courses": courses,
             "discord_id": str(discord_id)
         }
 
-    def execute(self, discord_id, course):
+    def execute(self, discord_id, courses):
         '''
         Método para ejecutar el comando.
 
         args:
             - discord_id: ID del usuario en discord.
-            - course: Lista de cursos.
+            - courses: Lista de cursos.
         '''
-        self.__set_data(discord_id, course)
+        self.__set_data(discord_id, courses)
         requests.post(url = f"{self.__api_url}{self.__url}", json = self.__user_data)
