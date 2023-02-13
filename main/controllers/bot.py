@@ -6,6 +6,14 @@ from main.constants.bot import BotConstants
 from main.utils.command_invoker import Invoker
 
 class Bot():
+    '''
+    Clase que crea el bot de discord.
+
+    args:
+        - invoker: Objeto que invoca los comandos del bot.
+    '''
+    def __init__(self, invoker: Invoker):
+        self.__invoker = invoker
 
     def bot_up(self):
         '''
@@ -14,9 +22,6 @@ class Bot():
         return:
             - Process: Devuelve el proceso con la función del bot y el token.
         '''
-
-        def __init__(self, invoker: Invoker):
-            self.__invoker = invoker
 
         discord_intents = discord.Intents.all()
         discord_intents.message_content = True

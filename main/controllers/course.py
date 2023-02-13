@@ -16,10 +16,7 @@ class Course(Resource):
         self.__validate = CourseValidate()
         self.__schema = CourseSchema()
         self.__service = CourseService()
-        self.__search_service = SearchService()
-        self.__search_validate = SearchValidate()
-        self.__user_service = UserService()
-        self.__user_validate = UserValidate()
+
 
     def get(self, id):
         '''
@@ -52,6 +49,13 @@ class Courses(Resource):
     param:
         - Resource: Clase de la cual hereda
     '''
+    def __init__(self):
+        self.__search_service = SearchService()
+        self.__search_validate = SearchValidate()
+        self.__user_service = UserService()
+        self.__user_validate = UserValidate()
+        self.__schema = CourseSchema()
+        self.__service = CourseService()
 
     def get(self):
         '''

@@ -16,9 +16,7 @@ class Search(Resource):
         self.__validate = SearchValidate()
         self.__schema = SearchSchema()
         self.__service = SearchService()
-        self.__user_validate = UserValidate()
-        self.__user_service = UserService()
-        self.__user_schema = UserSchema()
+
 
     def get(self, id):
         '''
@@ -51,6 +49,12 @@ class Searchs(Resource):
     param:
         - Resource: Clase de la cual hereda
     '''
+    def __init__(self):
+        self.__user_validate = UserValidate()
+        self.__schema = SearchSchema()
+        self.__user_service = UserService()
+        self.__user_schema = UserSchema()
+        self.__service = SearchService()
 
     def get(self):
         '''

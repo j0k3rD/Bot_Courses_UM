@@ -47,6 +47,9 @@ class Users(Resource):
     param:
         - Resource: Clase de la cual hereda
     '''
+    def __init__(self):
+        self.__schema = UserSchema()
+        self.__service = UserService()
 
     def get(self):
         '''
