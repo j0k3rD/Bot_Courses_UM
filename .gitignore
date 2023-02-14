@@ -12,3 +12,4 @@ pyvenv.cfg
 geckodriver.log
 include
 lib
+session_logger.log

@@ -1,7 +1,7 @@
 from abc import ABC
 from abc import abstractmethod
 from datetime import datetime
-
+import os
 
 class Logger(ABC):
     '''
@@ -84,7 +84,7 @@ class FileLogger(Logger):
     Clase que implementa el logger para un archivo.
     '''
 
-    __new_file = 'new_file.log'
+    __new_file = os.getenv('LOG_FILE')
 
     def __print(self, level, message):
         '''
