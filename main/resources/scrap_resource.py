@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
-from main.services import ScrapServices, FirefoxBrowser, ChromeBrowser
+from main.services import ScrapServices
 from main.constants import ScrapingResourcesConstants as ScrapingConstants
+from main.utils import InvokerBrowser
 import urllib.parse
 
 scrapblue = Blueprint('scrapblue',__name__, url_prefix='/')
@@ -16,17 +17,14 @@ def search(browser:str,keyword:str):
     return:
         - resp: Devuelve el listado de cursos
     '''
+    invoker = InvokerBrowser()
     browser = browser.lower()
-    
-    if browser != "chrome" and browser != "firefox":
+    browser_web = invoker.get_command(browser)
+
+    if browser_web == None:
         resp = jsonify({'status':ScrapingConstants.BROWSER_ERROR})
         resp.status_code = 404
     else:
-        if browser == "firefox":
-            browser_web = FirefoxBrowser()
-        else:
-            browser_web = ChromeBrowser()
-            
         scrap_service = ScrapServices(browser_web)
         courses = scrap_service.search(urllib.parse.quote(keyword), ScrapingConstants.URL)
         if courses == None:

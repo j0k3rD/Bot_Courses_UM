@@ -22,3 +22,6 @@ class BotConstants:
 
     # ERROR TOP
     BOT_ERROR_TOP = "No se pueden mostrar más de 20 cursos"
+
+    # URL BROWSER TYPE: Use this constants to set the browser type, you can choose between: 'chrome', 'firefox'.
+    BROWSER_TYPE = 'firefox'

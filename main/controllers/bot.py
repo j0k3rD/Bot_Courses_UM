@@ -38,7 +38,7 @@ class Bot():
                 - keyword: Palabra clave para buscar el curso.
             '''
             api_url = os.getenv('API_URL')
-            response = requests.get(f'{api_url}search/firefox/{keyword}')
+            response = requests.get(f'{api_url}search/{BotConstants.BROWSER_TYPE}/{keyword}')
             
             if response.status_code == 404:
                 self.__save_user(user_name = ctx.message.author, discord_id = ctx.message.author.id)
