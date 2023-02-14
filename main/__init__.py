@@ -37,7 +37,7 @@ def create_app():
     # Importo los controladores
     import main.controllers as controllers
     from main.controllers.bot import Bot
-    from main.utils.command_invoker import InvokerCommandsBot
+    from main.utils.invoker import Invoker
 
     api.add_resource(controllers.UserController, '/api/v1/user/<int:id>')
     api.add_resource(controllers.UsersController, '/api/v1/users')
@@ -47,7 +47,7 @@ def create_app():
     api.add_resource(controllers.SearchesController, '/api/v1/searches')
     api.init_app(app)
 
-    invoker = InvokerCommandsBot()
+    invoker = Invoker()
     bot = Bot(invoker)
 
     #Usamos multiprocessing para ejecutar el bot y la API

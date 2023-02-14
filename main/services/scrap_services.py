@@ -6,6 +6,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from main.models import SearchModel
 from ..import db
 from flask import Blueprint, jsonify
+from main.constants import ScrapingServicesConstants as ScrapingConstants
 
 class ScrapServices:
     '''
@@ -63,11 +64,11 @@ class ScrapServices:
         return:
             - course_list: Lista de cursos scrapeados
         '''
-        title_course = html.find_elements("xpath","//h2[@class='no-margin-bottom normal-line-height f-text-22 ibm bold-600 f-top-12']")
+        title_course = html.find_elements(ScrapingConstants.SCRAP_METHOD_TITTLE , ScrapingConstants.SCRAP_TITTLE)
         title_course = [   title.text    for title in title_course]
         if title_course != None:
             pass
-        url_courses = html.find_elements("xpath","//h2[@class='no-margin-bottom normal-line-height f-text-22 ibm bold-600 f-top-12']//a[1]")
+        url_courses = html.find_elements(ScrapingConstants.SCRAP_METHOD_URL , ScrapingConstants.SCRAP_URL)
         url_courses = [   url.get_attribute('href')    for url in url_courses]
         if url_courses != None:
             '''juntemos los dos'''

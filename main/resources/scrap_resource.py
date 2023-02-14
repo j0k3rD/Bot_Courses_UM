@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify
 from main.services import ScrapServices, FirefoxBrowser, ChromeBrowser
+from main.constants import ScrapingResourcesConstants as ScrapingConstants
 import urllib.parse
 
 scrapblue = Blueprint('scrapblue',__name__, url_prefix='/')
@@ -15,23 +16,25 @@ def search(browser:str,keyword:str):
     return:
         - resp: Devuelve el listado de cursos
     '''
-    if browser.lower() != "chrome" and browser.lower() != "firefox":
-        resp = jsonify({'status':'Invalid browser option! (Choose between "chrome" or "firefox")'})
+    browser = browser.lower()
+    
+    if browser != "chrome" and browser != "firefox":
+        resp = jsonify({'status':ScrapingConstants.BROWSER_ERROR})
         resp.status_code = 404
     else:
-        if browser.lower() == "firefox":
+        if browser == "firefox":
             browser_web = FirefoxBrowser()
         else:
             browser_web = ChromeBrowser()
             
         scrap_service = ScrapServices(browser_web)
-        courses = scrap_service.search(urllib.parse.quote(keyword), "https://codigofacilito.com/courses?utf8=✓&search[keyword]")
+        courses = scrap_service.search(urllib.parse.quote(keyword), ScrapingConstants.URL)
         if courses == None:
-            resp = jsonify({'status':'search_error'})
+            resp = jsonify({'status':ScrapingConstants.SEARCH_ERROR})
             resp.status_code = 404
         else:
             message = f'{courses}'
-            resp = jsonify({'status':'search_complete',
+            resp = jsonify({'status':ScrapingConstants.SEARCH_COMPLETE,
                         'message':message})
             resp.status_code = 200
     return resp 

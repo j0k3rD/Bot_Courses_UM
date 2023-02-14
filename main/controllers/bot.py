@@ -2,7 +2,7 @@ from discord.ext import commands
 import os, requests, discord, datetime
 from multiprocessing import Process
 import ast
-from main.constants.bot import BotConstants
+from main.constants.controllers import BotConstants
 from main.utils.command_invoker import Invoker
 
 class Bot():
