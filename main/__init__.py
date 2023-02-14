@@ -37,7 +37,7 @@ def create_app():
     # Importo los controladores
     import main.controllers as controllers
     from main.controllers.bot import Bot
-    from main.utils.invoker import Invoker
+    from main.utils import InvokerCommandsBot
 
     api.add_resource(controllers.UserController, '/api/v1/user/<int:id>')
     api.add_resource(controllers.UsersController, '/api/v1/users')
@@ -47,7 +47,12 @@ def create_app():
     api.add_resource(controllers.SearchesController, '/api/v1/searches')
     api.init_app(app)
 
-    invoker = Invoker()
+    #Logger
+    from main.utils.logger_factory import LoggerFactoryImpl
+    logger = LoggerFactoryImpl()
+    logger = logger.get_command(os.getenv('LOGGER_TYPE'))
+
+    invoker = InvokerCommandsBot(logger)
     bot = Bot(invoker)
 
     #Usamos multiprocessing para ejecutar el bot y la API

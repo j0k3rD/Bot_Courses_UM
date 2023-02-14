@@ -14,5 +14,3 @@ class Invoker(ABC):
             - command: Comando.
         '''
         pass
-
-        

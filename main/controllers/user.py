@@ -4,6 +4,7 @@ from main.services import UserService
 from main.map import UserSchema
 from main.validate import UserValidate
 
+
 class User(Resource):
     '''
     Clase que representa el controlador de la entidad User
@@ -15,6 +16,7 @@ class User(Resource):
         self.__validate = UserValidate()
         self.__schema = UserSchema()
         self.__service = UserService()
+
 
     def get(self, id):
         '''
@@ -75,7 +77,7 @@ class Users(Resource):
 
         # Validate if user already exists.
         if self.__service.get_by_discord_id(discord_id):
-            return f'User already exists by discord_id, {discord_id}', 201
+            return f'User already exists by discord_id, {discord_id}', 202
     
         # Create user.
         data = {

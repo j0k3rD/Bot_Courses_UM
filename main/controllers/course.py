@@ -4,6 +4,7 @@ from main.services import CourseService, SearchService, UserService
 from main.map import CourseSchema
 from main.validate import CourseValidate, SearchValidate, UserValidate
 
+
 class Course(Resource):
     '''
     Clase que representa el controlador de la entidad Course

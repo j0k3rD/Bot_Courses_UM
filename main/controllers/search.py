@@ -4,6 +4,7 @@ from main.services import SearchService, UserService
 from main.map import SearchSchema, UserSchema
 from main.validate import SearchValidate, UserValidate
 
+
 class Search(Resource):
     '''
     Clase que representa el controlador de la entidad Search
@@ -16,7 +17,6 @@ class Search(Resource):
         self.__validate = SearchValidate()
         self.__schema = SearchSchema()
         self.__service = SearchService()
-
 
     def get(self, id):
         '''
@@ -63,7 +63,6 @@ class Searchs(Resource):
         return:
             - Lista de busquedas en formato json
         '''
-        
         model = self.__schema.dump(self.__service.get_all(), many=True)
         return model, 201
 
@@ -74,8 +73,6 @@ class Searchs(Resource):
         return:
             - Busqueda en formato json
         '''
-        
-
         # Json values
         user_json = request.json
         keywords = user_json["keywords"]
@@ -83,13 +80,12 @@ class Searchs(Resource):
 
         @self.__user_validate.get_user(discord_id = discord_id)
         def validater():
-
             user = self.__user_schema.dump(self.__user_service.get_by_discord_id(discord_id = discord_id))
             data = {
                 "keywords": keywords,
                 "user_id": user["id"]
             }
-            model = self.__schema.load(data) 
+            model = self.__schema.load(data)
             return self.__schema.dump(self.__service.add(model)), 201
 
         return validater()
