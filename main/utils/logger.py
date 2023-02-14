@@ -2,6 +2,9 @@ from abc import ABC
 from abc import abstractmethod
 from datetime import datetime
 import os
+from colorama import init, Fore, Back
+
+init()
 
 class Logger(ABC):
     '''
@@ -36,6 +39,13 @@ class Logger(ABC):
         '''
         pass
 
+    @abstractmethod
+    def bot(self, level, message):
+        '''
+        Método abstracto para loguear un mensaje de debug.
+        '''
+        pass
+
 
 class ConsoleLogger(Logger):
     '''
@@ -49,7 +59,7 @@ class ConsoleLogger(Logger):
         args:
             - message: Mensaje a loguear.
         '''
-        print(f"INFO: {message}")
+        print(Back.GREEN + f"[+]INFO: {message}" + Back.RESET)
 
     def error(self, message):
         '''
@@ -58,7 +68,7 @@ class ConsoleLogger(Logger):
         args:
             - message: Mensaje a loguear.
         '''
-        print(f"ERROR: {message}")
+        print(Back.RED + f"[!]ERROR: {message}" + Back.RESET)
 
     def warning(self, message):
         '''
@@ -67,7 +77,7 @@ class ConsoleLogger(Logger):
         args:
             - message: Mensaje a loguear.
         '''
-        print(f"WARNING: {message}")
+        print(Back.YELLOW + f"[~]WARNING: {message}" + Back.RESET)
 
     def debug(self, message):
         '''
@@ -76,7 +86,16 @@ class ConsoleLogger(Logger):
         args:
             - message: Mensaje a loguear.
         '''
-        print(f"DEBUG: {message}")
+        print(Back.PURPLE + f"[*]DEBUG: {message}" + Back.RESET)
+
+    def bot(self, message):
+        '''
+        Método para loguear un mensaje de debug.
+
+        args:
+            - message: Mensaje a loguear.
+        '''
+        print(Back.BLUE + f"[:]BOT: {message}" + Back.RESET)
     
 
 class FileLogger(Logger):
@@ -131,3 +150,12 @@ class FileLogger(Logger):
             - message: Mensaje a loguear.
         '''
         self.__print(level='DEBUG', message=message)
+
+    def bot(self, message):
+        '''
+        Método para loguear un mensaje de debug.
+
+        args:
+            - message: Mensaje a loguear.
+        '''
+        self.__print(level='[~]BOT', message=message)

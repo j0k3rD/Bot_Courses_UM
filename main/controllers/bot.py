@@ -4,6 +4,8 @@ from multiprocessing import Process
 import ast
 from main.constants.controllers import BotConstants
 from main.utils.command_invoker import Invoker
+from main.utils.logger import Logger
+
 
 class Bot():
     '''
@@ -11,9 +13,11 @@ class Bot():
 
     args:
         - invoker: Objeto que invoca los comandos del bot.
+        - logger: Objeto que loguea los mensajes.
     '''
-    def __init__(self, invoker: Invoker):
+    def __init__(self, invoker: Invoker, logger: Logger):
         self.__invoker = invoker
+        self.__logger = logger
 
     def bot_up(self):
         '''
@@ -38,35 +42,43 @@ class Bot():
                 - keyword: Palabra clave para buscar el curso.
             '''
             api_url = os.getenv('API_URL')
+            self.__logger.bot(f'User {ctx.message.author} is searching for {keyword}')
             response = requests.get(f'{api_url}search/{BotConstants.BROWSER_TYPE}/{keyword}')
             
+            if (self.__invoker != None):
+                # Guardar usuario
+                save_user = self.__invoker.get_command('save_user')
+                save_search = self.__invoker.get_command('save_search')
+                save_course = self.__invoker.get_command('save_course')
+            else:
+                self.__logger.error("Invoker is Null")
+                print("Invoker is Null")
+                return
+
+            # Guardar información del usuario
+            user_name = ctx.message.author
+            user_id = ctx.message.author.id
+
             if response.status_code == 404:
-                self.__save_user(user_name = ctx.message.author, discord_id = ctx.message.author.id)
-                self.__save_search(keywords = keyword, discord_id = ctx.message.author.id)
+                self.__logger.bot(f'Course {keyword} not found.')
+                save_user.execute(user_name = user_name, discord_id = user_id)
+                save_search.execute(keywords = keyword, discord_id = user_id)
                 embed = self.__text_embed_not_found(ctx, keyword)
             else:
+                self.__logger.bot(f'Course {keyword} found.')
                 embed = self.__text_embed_found(keyword)
                 #Convertir el string en una lista
                 courses = ast.literal_eval(response.json()['message'])
-                # Guardar información del usuario
-                user_id = ctx.message.author.id
-                user_name = ctx.message.author
-
-                if (self.__invoker != None):
-                    # Guardar usuario
-                    save_user = self.__invoker.get_command('save_user')
-                    save_search = self.__invoker.get_command('save_search')
-                    save_course = self.__invoker.get_command('save_course')
-                else:
-                    print("Invoker is Null")
 
                 save_user.execute(user_name = user_name, discord_id = user_id)
                 # Guardar lo escrito por el usuario
-                save_search.execute(keywords = keyword, discord_id = ctx.message.author.id)
+                save_search.execute(keywords = keyword, discord_id = user_id)
                 # Guardar los cursos en la base de datos
                 save_course.execute(courses = courses, discord_id = user_id)
 
                 self.__text_embed_found_setter(ctx, embed, courses)
+
+            self.__logger.bot(f'Course {keyword} sent to {ctx.message.author}')
             
             await ctx.send(embed = embed)
 

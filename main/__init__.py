@@ -53,7 +53,7 @@ def create_app():
     logger = logger.get_command(os.getenv('LOGGER_TYPE'))
 
     invoker = InvokerCommandsBot(logger)
-    bot = Bot(invoker)
+    bot = Bot(invoker, logger)
 
     #Usamos multiprocessing para ejecutar el bot y la API
     p1 = bot.bot_up()
